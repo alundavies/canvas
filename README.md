@@ -3,7 +3,7 @@ canvas
 
 Starting with the example editor from mxgraph as a base - build something which makes day-to-day tasks and coding less cumbersome.
 
-[Github pages branch](https://jgraph.github.io/mxgraph/)
+[Github pages for mxgraph](https://jgraph.github.io/mxgraph/)
 
 
 Getting Started
