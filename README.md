@@ -11,7 +11,7 @@ Getting Started
 
 Checkout the project and run with node
 
->npm install
+>npm install  
 >node index.js
 
 [http://localhost:29000/canvas]
