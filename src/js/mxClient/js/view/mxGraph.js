@@ -1401,11 +1401,9 @@ mxGraph.prototype.extendParentsOnMove = false;
 
 /**
  * Variable: recursiveResize
- * 
- * Specifies the return value for <isRecursiveResize>. Default is
- * false for backwards compatiblity.
+ *
  */
-mxGraph.prototype.recursiveResize = false;
+mxGraph.prototype.recursiveResize = true;
 
 /**
  * Variable: collapseToPreferredSize
@@ -1453,7 +1451,7 @@ mxGraph.prototype.resetViewOnRootChange = true;
  * Specifies if edge control points should be reset after the resize of a
  * connected cell. Default is false.
  */
-mxGraph.prototype.resetEdgesOnResize = false;
+mxGraph.prototype.resetEdgesOnResize = true;
 
 /**
  * Variable: resetEdgesOnMove
@@ -1461,7 +1459,7 @@ mxGraph.prototype.resetEdgesOnResize = false;
  * Specifies if edge control points should be reset after the move of a
  * connected cell. Default is false.
  */
-mxGraph.prototype.resetEdgesOnMove = false;
+mxGraph.prototype.resetEdgesOnMove = true;
 
 /**
  * Variable: resetEdgesOnConnect
@@ -1476,7 +1474,7 @@ mxGraph.prototype.resetEdgesOnConnect = true;
  * 
  * Specifies if loops (aka self-references) are allowed. Default is false.
  */
-mxGraph.prototype.allowLoops = false;
+mxGraph.prototype.allowLoops = true;
 	
 /**
  * Variable: defaultLoopStyle
@@ -1500,7 +1498,7 @@ mxGraph.prototype.multigraph = true;
  * Specifies if edges are connectable. Default is false. This overrides the
  * connectable field in edges.
  */
-mxGraph.prototype.connectableEdges = false;
+mxGraph.prototype.connectableEdges = true;
 
 /**
  * Variable: allowDanglingEdges
@@ -1516,7 +1514,7 @@ mxGraph.prototype.allowDanglingEdges = true;
  * Specifies if edges that are cloned should be validated and only inserted
  * if they are valid. Default is true.
  */
-mxGraph.prototype.cloneInvalidEdges = false;
+mxGraph.prototype.cloneInvalidEdges = true;
 
 /**
  * Variable: disconnectOnMove
@@ -7719,6 +7717,7 @@ mxGraph.prototype.center = function(horizontal, vertical, cx, cy)
 mxGraph.prototype.zoom = function(factor, center)
 {
 	center = (center != null) ? center : this.centerZoom;
+
 	var scale = Math.round(this.view.scale * factor * 100) / 100;
 	var state = this.view.getState(this.getSelectionCell());
 	factor = scale / this.view.scale;
@@ -7760,7 +7759,7 @@ mxGraph.prototype.zoom = function(factor, center)
 				dx *= f;
 				dy *= f;
 			}
-
+console.log( 'scaleAndTranslate on view about to be called');
 			this.view.scaleAndTranslate(scale,
 				this.view.translate.x + dx,
 				this.view.translate.y + dy);
@@ -7772,7 +7771,8 @@ mxGraph.prototype.zoom = function(factor, center)
 			var ty = this.view.translate.y;
 			var sl = this.container.scrollLeft;
 			var st = this.container.scrollTop;
-			
+
+            console.log( 'setScale on view about to be called');
 			this.view.setScale(scale);
 			
 			if (hasScrollbars)
@@ -7785,7 +7785,8 @@ mxGraph.prototype.zoom = function(factor, center)
 					dx = this.container.offsetWidth * (factor - 1) / 2;
 					dy = this.container.offsetHeight * (factor - 1) / 2;
 				}
-				
+
+
 				this.container.scrollLeft = (this.view.translate.x - tx) * this.view.scale + Math.round(sl * factor + dx);
 				this.container.scrollTop = (this.view.translate.y - ty) * this.view.scale + Math.round(st * factor + dy);
 			}
@@ -10572,7 +10573,7 @@ mxGraph.prototype.getOverlap = function(cell)
 {
 	return (this.isAllowOverlapParent(cell)) ? this.defaultOverlap : 0;
 };
-	
+
 /**
  * Function: isAllowOverlapParent
  * 

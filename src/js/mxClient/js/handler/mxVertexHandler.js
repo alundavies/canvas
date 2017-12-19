@@ -1160,6 +1160,7 @@ mxVertexHandler.prototype.mouseUp = function(sender, me)
 				
 				var s = this.graph.view.scale;
 				var recurse = this.isRecursiveResize(this.state, me);
+				console.log( 'recurse set to ', recurse)
 				this.resizeCell(this.state.cell, this.roundLength(dx / s), this.roundLength(dy / s),
 					this.index, gridEnabled, this.isConstrainedEvent(me), recurse);
 			}

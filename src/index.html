@@ -2,10 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Grapheditor</title>
+    <title>Blueprint</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="js/canvas/styles/grapheditor.css">
+    <link rel="stylesheet" type="text/css" href="js/canvas/styles/grapheditor.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+	<script>
+        socket = io.connect('/blueprint');
+	</script>
+
 	<script type="text/javascript">
 		// Parses URL parameters. Supported parameters are:
 		// - lang=xy: Specifies the language of the user interface.
@@ -42,67 +47,44 @@
 	<script type="text/javascript" src="js/canvas/jscolor/jscolor.js"></script>
 	<script type="text/javascript" src="js/canvas/sanitizer/sanitizer.min.js"></script>
 	<script type="text/javascript" src="js/mxClient/js/mxClient.js"></script>
-	<script type="text/javascript" src="js/canvas/js/EditorUi.js"></script>
+	<script type="text/javascript" src="js/canvas/js/editorui/EditorUi.js"></script>
+	<script type="text/javascript" src="js/canvas/js/editorui/Save.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Editor.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Sidebar.js"></script>
-	<script type="text/javascript" src="js/canvas/js/Graph.js"></script>
+	<script type="text/javascript" src="js/canvas/js/graph/Graph.js"></script>
+	<script type="text/javascript" src="js/canvas/js/graph/Layers.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Shapes.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Actions.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Menus.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Format.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Toolbar.js"></script>
 	<script type="text/javascript" src="js/canvas/js/Dialogs.js"></script>
+	<link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css" type="text/css">
+	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+	<script src="https://openlayers.org/en/v4.2.0/build/ol.js"></script>
+	<style>
+		body {
+			background-color: black;
+			margin: 0;
+		}
+
+		.map{
+			width: 100%;
+			height: 100vh;
+			posistion: relative;
+		}
+	</style>
 </head>
-<body class="geEditor">
-	<script type="text/javascript">
-		// Extends EditorUi to update I/O action states based on availability of backend
-		(function()
-		{
-			var editorUiInit = EditorUi.prototype.init;
-			
-			EditorUi.prototype.init = function()
-			{
-				editorUiInit.apply(this, arguments);
-				this.actions.get('export').setEnabled(false);
+<body class="geEditor" >
+<!--div id="map" class="map" style="border:1px solid blue;position:absolute;top:80%;left:80%;bottom:82%;right:82%;"></div-->
 
-				// Updates action states which require a backend
-				if (!Editor.useLocalStorage)
-				{
-					mxUtils.post(OPEN_URL, '', mxUtils.bind(this, function(req)
-					{
-						var enabled = req.getStatus() != 404;
-						this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
-						this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
-						this.actions.get('save').setEnabled(enabled);
-						this.actions.get('saveAs').setEnabled(enabled);
-						this.actions.get('export').setEnabled(enabled);
-					}));
-				}
-			};
-			
-			// Adds required resources (disables loading of fallback properties, this can only
-			// be used if we know that all keys are defined in the language specific file)
-			mxResources.loadDefaultBundle = false;
-			var bundle = mxResources.getDefaultBundle(RESOURCE_BASE, mxLanguage) ||
-				mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage);
+</body>
 
-			// Fixes possible asynchronous requests
-			mxUtils.getAll([bundle, STYLE_PATH + '/default.xml'], function(xhr)
-			{
-				// Adds bundle text to resources
-				mxResources.parse(xhr[0].getText());
-				
-				// Configures the default graph theme
-				var themes = new Object();
-				themes[Graph.prototype.defaultThemeName] = xhr[1].getDocumentElement(); 
-				
-				// Main
-				new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
-			}, function()
-			{
-				document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
-			});
-		})();
-	</script>
+<script src="js/zoomer.js" ></script>
+<script src="js/init.js"></script>
+
+<script src="js/experiments.js"></script>
+<script src="js/execution.js"></script>
 </body>
 </html>

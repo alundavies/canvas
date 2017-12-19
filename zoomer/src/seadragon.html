@@ -1,0 +1,99 @@
+<html>
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+    html {
+        box-sizing: border-box;
+    }
+
+    body{
+        background-color: black
+    }
+
+</style>
+</head>
+<body>
+    <div id="openseadragon" style="width: 100%; height: 100%;background: none transparent; border: none; margin: 0px; padding: 0px; position: relative; overflow: hidden; left: 0px; top: 0px; text-align: left;"></div>
+    <script src="/openseadragon/src/openseadragon.js"></script>  <!-- openseadragon.min.js -->
+    <script type="text/javascript">
+
+        var urls = [
+            { name: 'mashable'},
+            { name: 'bbc_sport'},
+            { name: 'spacex'},
+             { name: 'bbc_technology'},
+             //{ name: 'cnn'},
+             { name: 'bbc'},
+             { name: 'bbc_technology'},
+             //{ name: 'bbc_entertainment'},
+             { name: 'github_canvas_indexhtml'},
+             { name: 'github_canvas'},
+             { name: 'github_canvas_buildxml'},
+             { name: 'github_canvas_mxmodel'},
+
+        ];
+
+
+        var viewer = OpenSeadragon({
+            id: "openseadragon",
+            prefixUrl: "/openseadragon/src/images/",
+            //iOSDevice: true,
+            preserveViewport: true,
+            //useCanvas: true,
+            //immediateRender: true, // recommended for mobile
+            //debugMode: true,
+            compositeOperation: 'source-over',
+            alwaysBlend: true,
+            opacity: 1,
+            placeholderFillStyle: '#ffffff',
+            viewportMargins: { left:0, top:0, right:0, bottom:0},
+            //animationTime: 0,
+            //showNavigator: true,
+            //collectionMode: true,
+            //sequenceMode: true,
+            //showSequenceControl: true,
+            //showReferenceStrip: true,
+           // tileSources:allDefns
+            //visibilityRatio: 1,
+           // autoResize: true
+           // collectionMode: true
+            //sequenceMode: true
+           // wrapVertical: true,
+           // tileSources: ["/openseadragon/output.dzi"]
+        });
+
+        var allDefns = [];
+        var rows = 120;
+        var cols = 80;
+        var siteWidth = 1/(cols);
+        for( var idx=0; idx<cols; idx++)
+        {
+
+            for( var y=0; y<rows; y++){
+
+                var url = urls[ parseInt( Math.random()*(urls.length-1))];
+                var defn = {
+                    tileSource: "/openseadragon/"+url.name+".dzi",
+                    x: idx*siteWidth,
+                    y: y*(1/rows),
+                    width: 0.98*siteWidth,
+                    //  index:0
+                };
+                allDefns.push( defn);
+                viewer.addTiledImage( defn);
+            }
+
+
+            //   viewer.world.setAutoRefigureSizes( true)
+            //   viewer.world.arrange({})
+            //viewer.world.setItemIndex( defn, this.viewer.world.getItemCount()-1)
+        }
+
+
+        //viewer.open( allDefns);
+
+     //   this.viewer.viewport.fitBounds(new OpenSeadragon.Rect(0, 0, 5, 5), true);
+
+    </script>
+</body>
+</html>

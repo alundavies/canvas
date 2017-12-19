@@ -2817,6 +2817,10 @@ mxGraphView.prototype.createSvg = function()
 	var root = document.createElementNS(mxConstants.NS_SVG, 'svg');
 	root.style.width = '100%';
 	root.style.height = '100%';
+	root.setAttribute( 'id', 'graphSVG')
+
+    root.style.backgroundColor = 'rgba( 255, 255, 255, 0)';
+
 	
 	// NOTE: In standards mode, the SVG must have block layout
 	// in order for the container DIV to not show scrollbars.
@@ -2845,6 +2849,7 @@ mxGraphView.prototype.updateContainerStyle = function(container)
 {
 	// Workaround for offset of container
 	var style = mxUtils.getCurrentStyle(container);
+	console.log( style);
 	
 	if (style != null && style.position == 'static')
 	{

@@ -24,6 +24,16 @@
   },
   "homepage": "https://github.com/alundavies/canvas",
   "dependencies": {
-    "express": "^4.15.2"
+    "async-file": "^2.0.2",
+    "body-parser": "^1.17.1",
+    "chrome-remote-interface": "^0.23.0",
+    "consolidate": "^0.14.5",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
+    "install": "^0.10.1",
+    "minimist": "^1.2.0",
+    "npm": "^5.0.2",
+    "pug": "^2.0.0-rc.1",
+    "socket.io": "^2.0.4"
   }
 }

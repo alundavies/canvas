@@ -313,13 +313,13 @@ Format.prototype.refresh = function()
 	this.clear();
 	var ui = this.editorUi;
 	var graph = ui.editor.graph;
-	
+
 	var div = document.createElement('div');
 	div.style.whiteSpace = 'nowrap';
 	div.style.color = 'rgb(112, 112, 112)';
 	div.style.textAlign = 'left';
 	div.style.cursor = 'default';
-	
+
 	var label = document.createElement('div');
 	label.style.border = '1px solid #c0c0c0';
 	label.style.borderWidth = '0px 0px 1px 0px';
@@ -331,6 +331,15 @@ Format.prototype.refresh = function()
 	label.style.height = (mxClient.IS_QUIRKS) ? '34px' : '25px';
 	label.style.width = '100%';
 	this.container.appendChild(div);
+
+
+    let layersDiv = document.createElement( 'div');
+    layersDiv.id = 'layersPlaceholder';
+    layersDiv.style.minHeight='50px';
+    layersDiv.style.width='100%';
+    layersDiv.innertText = 'Hello';
+	layersDiv.appendChild( document.createTextNode('Hello layers tab'));
+	div.appendChild( layersDiv);
 	
 	if (graph.isSelectionEmpty())
 	{
@@ -4322,7 +4331,7 @@ DiagramFormatPanel.prototype.init = function()
 	if (graph.isEnabled())
 	{
 		this.container.appendChild(this.addOptions(this.createPanel()));
-		this.container.appendChild(this.addPaperSize(this.createPanel()));
+		//this.container.appendChild(this.addPaperSize(this.createPanel()));
 		this.container.appendChild(this.addStyleOps(this.createPanel()));
 	}
 };
@@ -4368,7 +4377,7 @@ DiagramFormatPanel.prototype.addView = function(div)
 		}));
 		
 		// Page View
-		div.appendChild(this.createOption(mxResources.get('pageView'), function()
+	/*	div.appendChild(this.createOption(mxResources.get('pageView'), function()
 		{
 			return graph.pageVisible;
 		}, function(checked)
@@ -4389,7 +4398,7 @@ DiagramFormatPanel.prototype.addView = function(div)
 			{
 				ui.removeListener(this.listener);
 			}
-		}));
+		}));*/
 		
 		// Background
 		var bg = this.createColorOption(mxResources.get('background'), function()

@@ -2,7 +2,7 @@
  * Copyright (c) 2006-2012, JGraph Ltd
  */
 /**
- * Editor constructor executed on page load.
+ * Editor functionality to be called by code or from EditorUI actions
  */
 Editor = function(chromeless, themes, model, graph)
 {

@@ -1,0 +1,30 @@
+{
+  "name": "capturer",
+  "version": "0.0.1",
+  "description": "Capture screenshots from chrome",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "coding",
+    "automation"
+  ],
+  "author": "Alun Davies",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alundavies/canvas/issues"
+  },
+  "homepage": "https://github.com/alundavies/canvas",
+  "dependencies": {
+    "@types/lodash": "^4.14.72",
+    "chrome-remote-interface": "^0.23.0",
+    "lodash": "^4.17.4",
+    "minimist": "^1.2.0",
+    "navalia": "^1.2.0",
+    "npm": "^5.0.2"
+  }
+}

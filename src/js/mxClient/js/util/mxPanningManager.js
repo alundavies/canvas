@@ -51,26 +51,31 @@ function mxPanningManager(graph)
     	this.scrollLeft = graph.container.scrollLeft;
     	this.scrollTop = graph.container.scrollTop;
 
-    	return window.setInterval(mxUtils.bind(this, function()
-		{
-			this.tdx -= this.dx;
-			this.tdy -= this.dy;
+        	console.log( 'handling panning')
 
-			if (this.scrollbars)
-			{
-				var left = -graph.container.scrollLeft - Math.ceil(this.dx);
-				var top = -graph.container.scrollTop - Math.ceil(this.dy);
-				graph.panGraph(left, top);
-				graph.panDx = this.scrollLeft - graph.container.scrollLeft;
-				graph.panDy = this.scrollTop - graph.container.scrollTop;
-				graph.fireEvent(new mxEventObject(mxEvent.PAN));
-				// TODO: Implement graph.autoExtend
-			}
-			else
-			{
-				graph.panGraph(this.getDx(), this.getDy());
-			}
-		}), this.delay);
+    	var handler = mxUtils.bind(this, function()
+        {
+            this.tdx -= this.dx;
+            this.tdy -= this.dy;
+
+            if (this.scrollbars)
+            {
+                var left = -graph.container.scrollLeft - Math.ceil(this.dx);
+                var top = -graph.container.scrollTop - Math.ceil(this.dy);
+                graph.panGraph(left, top);
+                graph.panDx = this.scrollLeft - graph.container.scrollLeft;
+                graph.panDy = this.scrollTop - graph.container.scrollTop;
+                graph.fireEvent(new mxEventObject(mxEvent.PAN));
+                // TODO: Implement graph.autoExtend
+            }
+            else
+            {
+                graph.panGraph(this.getDx(), this.getDy());
+            }
+
+            this.thread = window.setTimeout( handler, this.delay);
+        });
+
 	});
 	
 	this.isActive = function()
@@ -182,12 +187,12 @@ function mxPanningManager(graph)
 			
 			if (this.thread == null)
 			{
-				this.thread = createThread();
+				createThread();
 			}
 		}
 		else if (this.thread != null)
 		{
-			window.clearInterval(this.thread);
+			window.clearTimeout(this.thread);
 			this.thread = null;
 		}
 	};
@@ -200,7 +205,7 @@ function mxPanningManager(graph)
 		
 			if (this.thread != null)
 	    	{
-				window.clearInterval(this.thread);
+				window.clearTimeout(this.thread);
 				this.thread = null;
 	    	}
 			

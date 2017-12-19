@@ -2,7 +2,7 @@
 	font-family:Helvetica Neue,Helvetica,Arial Unicode MS,Arial;
 	font-size:10pt;
 	border:none;
-	margin:0px;
+	margin:0px;/
 }
 .geEditor input[type=text]::-ms-clear {
 	display: none;
@@ -28,7 +28,7 @@
 	cursor:default;
 }
 .geDiagramContainer {
-	background-color:#ffffff;
+	background:none;
 	outline:none;
 }
 .geMenubar, .geToolbar {

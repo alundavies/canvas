@@ -228,6 +228,10 @@ mxShape.prototype.init = function(container)
 		{
 			container.appendChild(this.node);
 		}
+		try{
+			this.node.setAttribute( 'debug.cellId', this.state.cell.id);
+		} catch( e) {
+		}
 	}
 };
 
@@ -322,7 +326,9 @@ mxShape.prototype.create = function(container)
  */
 mxShape.prototype.createSvg = function()
 {
-	return document.createElementNS(mxConstants.NS_SVG, 'g');
+	var element = document.createElementNS(mxConstants.NS_SVG, 'g');
+    //element.setAttribute('_debug.time', new Date().getTime());
+	return element;
 };
 
 /**

@@ -26,6 +26,7 @@ Actions.prototype.init = function()
 
 	// File actions
 	this.addAction('new...', function() { window.open(ui.getUrl()); });
+
 	this.addAction('open...', function()
 	{
 		window.openNew = true;
@@ -1102,32 +1103,34 @@ Actions.prototype.init = function()
 			ui.actions.get('image').funct();
 		}
 	}).isEnabled = isGraphEnabled;
+
 	action = this.addAction('layers', mxUtils.bind(this, function()
 	{
 		if (this.layersWindow == null)
 		{
 			// LATER: Check outline window for initial placement
 			this.layersWindow = new LayersWindow(ui, document.body.offsetWidth - 280, 120, 220, 180);
-			this.layersWindow.window.addListener('show', function()
+			/*this.layersWindow.window.addListener('show', function()
 			{
-				ui.fireEvent(new mxEventObject('layers'));
+            	ui.fireEvent(new mxEventObject('layers'));
 			});
 			this.layersWindow.window.addListener('hide', function()
 			{
 				ui.fireEvent(new mxEventObject('layers'));
 			});
-			this.layersWindow.window.setVisible(true);
+			this.layersWindow.window.setVisible(true);*/
 			ui.fireEvent(new mxEventObject('layers'));
 		}
 		else
 		{
-			this.layersWindow.window.setVisible(!this.layersWindow.window.isVisible());
+			//this.layersWindow.window.setVisible(!this.layersWindow.window.isVisible());
 		}
 		
 		//ui.fireEvent(new mxEventObject('layers'));
 	}), null, null, 'Ctrl+Shift+L');
 	action.setToggleAction(true);
-	action.setSelectedCallback(mxUtils.bind(this, function() { return this.layersWindow != null && this.layersWindow.window.isVisible(); }));
+	action.setSelectedCallback(mxUtils.bind(this, function() { return this.layersWindow != null && ui.formatWidth > 0; }));
+
 	action = this.addAction('formatPanel', mxUtils.bind(this, function()
 	{
 		ui.toggleFormatPanel();

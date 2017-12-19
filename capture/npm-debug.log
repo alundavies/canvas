@@ -1,0 +1,82 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '@types/lodash',
+1 verbose cli   '--save' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 warn package.json capturer@0.0.1 No repository field.
+5 warn package.json capturer@0.0.1 No README data
+6 warn package.json ultron@1.1.0 No README data
+7 warn package.json lighthouse-logger@1.0.0 No repository field.
+8 verbose readDependencies using package.json deps
+9 verbose cache add [ '@types/lodash', null ]
+10 verbose cache add name=undefined spec="@types/lodash" args=["@types/lodash",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: '@types/lodash',
+11 verbose parsed url   path: '@types/lodash',
+11 verbose parsed url   href: '@types/lodash' }
+12 verbose cache add name="" spec="types/lodash" args=["","types/lodash"]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'types/lodash',
+13 verbose parsed url   path: 'types/lodash',
+13 verbose parsed url   href: 'types/lodash' }
+14 silly lockFile f50bac5a-types-lodash types/lodash
+15 verbose lock types/lodash /Users/alundavies/.npm/f50bac5a-types-lodash.lock
+16 info maybeGithub Attempting types/lodash from git://github.com/types/lodash
+17 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
+18 verbose lock git://github.com/types/lodash /Users/alundavies/.npm/0198a6bf-git-github-com-types-lodash.lock
+19 verbose addRemoteGit [ 'git://github.com/types/lodash', 'master' ]
+20 verbose git clone git://github.com/types/lodash Cloning into bare repository '/Users/alundavies/.npm/_git-remotes/git-github-com-types-lodash-0198a6bf'...
+20 verbose git clone git://github.com/types/lodash
+20 verbose git clone git://github.com/types/lodash fatal: remote error:
+20 verbose git clone git://github.com/types/lodash   Repository not found.
+21 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
+22 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
+23 info maybeGithub Attempting types/lodash from git+ssh://git@github.com:types/lodash
+24 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
+25 verbose lock git@github.com:types/lodash /Users/alundavies/.npm/9eb5372a-git-github-com-types-lodash.lock
+26 verbose addRemoteGit [ 'git@github.com:types/lodash', 'master' ]
+27 error git clone git@github.com:types/lodash Cloning into bare repository '/Users/alundavies/.npm/_git-remotes/git-github-com-types-lodash-9eb5372a'...
+27 error git clone git@github.com:types/lodash
+27 error git clone git@github.com:types/lodash Warning: Permanently added the RSA host key for IP address '192.30.253.112' to the list of known hosts.
+27 error git clone git@github.com:types/lodash Permission denied (publickey).
+27 error git clone git@github.com:types/lodash fatal: Could not read from remote repository.
+27 error git clone git@github.com:types/lodash
+27 error git clone git@github.com:types/lodash Please make sure you have the correct access rights
+27 error git clone git@github.com:types/lodash and the repository exists.
+28 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
+29 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
+30 silly lockFile f50bac5a-types-lodash types/lodash
+31 silly lockFile f50bac5a-types-lodash types/lodash
+32 error addLocal Could not install types/lodash
+33 error Error: ENOENT, stat 'types/lodash'
+34 error If you need help, you may report this *entire* log,
+34 error including the npm and node versions, at:
+34 error     <http://github.com/npm/npm/issues>
+35 error System Darwin 16.6.0
+36 error command "node" "/usr/local/bin/npm" "install" "@types/lodash" "--save"
+37 error cwd /Users/alundavies/git/canvas/capture
+38 error node -v v0.10.28
+39 error npm -v 1.4.9
+40 error path types/lodash
+41 error code ENOENT
+42 error errno 34
+43 verbose exit [ 34, true ]
