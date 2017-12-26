@@ -442,7 +442,7 @@ Menus.prototype.init = function()
 	this.put('viewZoom', new Menu(mxUtils.bind(this, function(menu, parent)
 	{
 		this.addMenuItems(menu, ['resetView', '-'], parent);
-		var scales = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4];
+		var scales = [0.01, 0.02, 0.05, 0.1, 0.15, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4, 6 , 10];
 		
 		for (var i = 0; i < scales.length; i++)
 		{
