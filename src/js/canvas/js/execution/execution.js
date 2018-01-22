@@ -3,7 +3,7 @@ class Execution {
         this.graph=graph;
     }
 
-    runVertexWithId( id){
+    runVertexWithId=function( id){
         let cell = graph.model.getCell( id);
         if( cell.context && cell.context.run()){
             setTimeout( () => {
