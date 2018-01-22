@@ -27,6 +27,7 @@ DiagramFormatPanel.prototype.init = function()
 
     if (graph.isEnabled())
     {
+        this.container.appendChild(this.addPositioning(this.createPanel()));
         this.container.appendChild(this.addOptions(this.createPanel()));
         //this.container.appendChild(this.addPaperSize(this.createPanel()));
         this.container.appendChild(this.addStyleOps(this.createPanel()));
@@ -49,29 +50,6 @@ DiagramFormatPanel.prototype.addView = function(div)
 
     if (graph.isEnabled())
     {
-        // Guides
-        div.appendChild(this.createOption(mxResources.get('guides'), function()
-            {
-                return graph.graphHandler.guidesEnabled;
-            }, function(checked)
-            {
-                ui.actions.get('guides').funct();
-            },
-            {
-                install: function(apply)
-                {
-                    this.listener = function()
-                    {
-                        apply(graph.graphHandler.guidesEnabled);
-                    };
-
-                    ui.addListener('guidesEnabledChanged', this.listener);
-                },
-                destroy: function()
-                {
-                    ui.removeListener(this.listener);
-                }
-            }));
 
         // Page View
         /*	div.appendChild(this.createOption(mxResources.get('pageView'), function()
@@ -141,6 +119,37 @@ DiagramFormatPanel.prototype.addView = function(div)
         }
 
         div.appendChild(bg);
+    }
+
+    return div;
+};
+
+DiagramFormatPanel.prototype.addPositioning = function( div){
+
+    var ui = this.editorUi;
+    var graph = editor.graph;
+
+    div.appendChild( this.createTitle( mxResources.get( 'positioning')));
+
+    if (graph.isEnabled()) {
+        // Guides
+        div.appendChild(this.createOption(mxResources.get('guides'), function () {
+                return graph.graphHandler.guidesEnabled;
+            }, function (checked) {
+                ui.actions.get('guides').funct();
+            },
+            {
+                install: function (apply) {
+                    this.listener = function () {
+                        apply(graph.graphHandler.guidesEnabled);
+                    };
+
+                    ui.addListener('guidesEnabledChanged', this.listener);
+                },
+                destroy: function () {
+                    ui.removeListener(this.listener);
+                }
+            }));
     }
 
     return div;

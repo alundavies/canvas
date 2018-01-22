@@ -236,7 +236,8 @@ mxOutline.prototype.init = function(container)
 	view.addListener(mxEvent.UP, this.updateHandler);
 
 	// Updates blue rectangle on scroll
-	mxEvent.addListener(this.source.container, 'scroll', this.updateHandler);
+	//todo: Alun uncomment
+	//mxEvent.addListener(this.source.container, 'scroll', this.updateHandler);
 	
 	this.panHandler = mxUtils.bind(this, function(sender)
 	{
@@ -443,114 +444,120 @@ mxOutline.prototype.update = function(revalidate)
 				scaledGraphBounds.y / sourceScale + this.source.panDy, scaledGraphBounds.width / sourceScale,
 				scaledGraphBounds.height / sourceScale);
 
-		var unscaledFinderBounds = new mxRectangle(0, 0,
-			this.source.container.clientWidth / sourceScale,
-			this.source.container.clientHeight / sourceScale);
-		
-		var union = unscaledGraphBounds.clone();
-		union.add(unscaledFinderBounds);
-	
-		// Zooms to the scrollable area if that is bigger than the graph
-		var size = this.getSourceContainerSize();
-		var completeWidth = Math.max(size.width / sourceScale, union.width);
-		var completeHeight = Math.max(size.height / sourceScale, union.height);
-	
-		var availableWidth = Math.max(0, this.outline.container.clientWidth - this.border);
-		var availableHeight = Math.max(0, this.outline.container.clientHeight - this.border);
-		
-		var outlineScale = Math.min(availableWidth / completeWidth, availableHeight / completeHeight);
-		var scale = (isNaN(outlineScale)) ? this.minScale : Math.max(this.minScale, outlineScale);
+		console.log( 'this.source', this.source);
 
-		if (scale > 0)
-		{
-			if (this.outline.getView().scale != scale)
-			{
-				this.outline.getView().scale = scale;
-				revalidate = true;
-			}
-		
-			var navView = this.outline.getView();
-			
-			if (navView.currentRoot != this.source.getView().currentRoot)
-			{
-				navView.setCurrentRoot(this.source.getView().currentRoot);
-			}
+		if( this.source && this.source.container) {
 
-			var t = this.source.view.translate;
-			var tx = t.x + this.source.panDx;
-			var ty = t.y + this.source.panDy;
-			
-			var off = this.getOutlineOffset(scale);
-			
-			if (off != null)
-			{
-				tx += off.x;
-				ty += off.y;
-			}
-			
-			if (unscaledGraphBounds.x < 0)
-			{
-				tx = tx - unscaledGraphBounds.x;
-			}
-			if (unscaledGraphBounds.y < 0)
-			{
-				ty = ty - unscaledGraphBounds.y;
-			}
-			
-			if (navView.translate.x != tx || navView.translate.y != ty)
-			{
-				navView.translate.x = tx;
-				navView.translate.y = ty;
-				revalidate = true;
-			}
-		
-			// Prepares local variables for computations
-			var t2 = navView.translate;
-			scale = this.source.getView().scale;
-			var scale2 = scale / navView.scale;
-			var scale3 = 1.0 / navView.scale;
-			var container = this.source.container;
-			
-			// Updates the bounds of the viewrect in the navigation
-			this.bounds = new mxRectangle(
-				(t2.x - t.x - this.source.panDx) / scale3,
-				(t2.y - t.y - this.source.panDy) / scale3,
-				(container.clientWidth / scale2),
-				(container.clientHeight / scale2));
-			
-			// Adds the scrollbar offset to the finder
-			this.bounds.x += this.source.container.scrollLeft * navView.scale / scale;
-			this.bounds.y += this.source.container.scrollTop * navView.scale / scale;
-			
-			var b = this.selectionBorder.bounds;
-			
-			if (b.x != this.bounds.x || b.y != this.bounds.y || b.width != this.bounds.width || b.height != this.bounds.height)
-			{
-				this.selectionBorder.bounds = this.bounds;
-				this.selectionBorder.redraw();
-			}
-		
-			// Updates the bounds of the zoom handle at the bottom right
-			var b = this.sizer.bounds;
-			var b2 = new mxRectangle(this.bounds.x + this.bounds.width - b.width / 2,
-					this.bounds.y + this.bounds.height - b.height / 2, b.width, b.height);
+			var unscaledFinderBounds = new mxRectangle(0, 0,
+				this.source.container.clientWidth / sourceScale,
+				this.source.container.clientHeight / sourceScale);
 
-			if (b.x != b2.x || b.y != b2.y || b.width != b2.width || b.height != b2.height)
+			var union = unscaledGraphBounds.clone();
+			union.add(unscaledFinderBounds);
+
+			// Zooms to the scrollable area if that is bigger than the graph
+			var size = this.getSourceContainerSize();
+			var completeWidth = Math.max(size.width / sourceScale, union.width);
+			var completeHeight = Math.max(size.height / sourceScale, union.height);
+
+			var availableWidth = Math.max(0, this.outline.container.clientWidth - this.border);
+			var availableHeight = Math.max(0, this.outline.container.clientHeight - this.border);
+
+			var outlineScale = Math.min(availableWidth / completeWidth, availableHeight / completeHeight);
+			var scale = (isNaN(outlineScale)) ? this.minScale : Math.max(this.minScale, outlineScale);
+
+			if (scale > 0)
 			{
-				this.sizer.bounds = b2;
-				
-				// Avoids update of visibility in redraw for VML
-				if (this.sizer.node.style.visibility != 'hidden')
+				if (this.outline.getView().scale != scale)
 				{
-					this.sizer.redraw();
+					this.outline.getView().scale = scale;
+					revalidate = true;
+				}
+
+				var navView = this.outline.getView();
+
+				if (navView.currentRoot != this.source.getView().currentRoot)
+				{
+					navView.setCurrentRoot(this.source.getView().currentRoot);
+				}
+
+				var t = this.source.view.translate;
+				var tx = t.x + this.source.panDx;
+				var ty = t.y + this.source.panDy;
+
+				var off = this.getOutlineOffset(scale);
+
+				if (off != null)
+				{
+					tx += off.x;
+					ty += off.y;
+				}
+
+				if (unscaledGraphBounds.x < 0)
+				{
+					tx = tx - unscaledGraphBounds.x;
+				}
+				if (unscaledGraphBounds.y < 0)
+				{
+					ty = ty - unscaledGraphBounds.y;
+				}
+
+				if (navView.translate.x != tx || navView.translate.y != ty)
+				{
+					navView.translate.x = tx;
+					navView.translate.y = ty;
+					revalidate = true;
+				}
+
+				// Prepares local variables for computations
+				var t2 = navView.translate;
+				scale = this.source.getView().scale;
+				var scale2 = scale / navView.scale;
+				var scale3 = 1.0 / navView.scale;
+				var container = this.source.container;
+
+				// Updates the bounds of the viewrect in the navigation
+				this.bounds = new mxRectangle(
+					(t2.x - t.x - this.source.panDx) / scale3,
+					(t2.y - t.y - this.source.panDy) / scale3,
+					(container.clientWidth / scale2),
+					(container.clientHeight / scale2));
+
+				// Adds the scrollbar offset to the finder
+				this.bounds.x += this.source.container.scrollLeft * navView.scale / scale;
+				this.bounds.y += this.source.container.scrollTop * navView.scale / scale;
+
+				var b = this.selectionBorder.bounds;
+
+				if (b.x != this.bounds.x || b.y != this.bounds.y || b.width != this.bounds.width || b.height != this.bounds.height)
+				{
+					this.selectionBorder.bounds = this.bounds;
+					this.selectionBorder.redraw();
+				}
+
+				// Updates the bounds of the zoom handle at the bottom right
+				var b = this.sizer.bounds;
+				var b2 = new mxRectangle(this.bounds.x + this.bounds.width - b.width / 2,
+						this.bounds.y + this.bounds.height - b.height / 2, b.width, b.height);
+
+				if (b.x != b2.x || b.y != b2.y || b.width != b2.width || b.height != b2.height)
+				{
+					this.sizer.bounds = b2;
+
+					// Avoids update of visibility in redraw for VML
+					if (this.sizer.node.style.visibility != 'hidden')
+					{
+						this.sizer.redraw();
+					}
+				}
+
+				if (revalidate)
+				{
+					this.outline.view.revalidate();
 				}
 			}
-
-			if (revalidate)
-			{
-				this.outline.view.revalidate();
-			}
 		}
+
 	}
 };
 

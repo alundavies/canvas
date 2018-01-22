@@ -1,83 +1,28 @@
-Graph.prototype.createLayersDialog = function()
-{
-    var div = document.createElement('div');
-    div.style.position = 'absolute';
-
-    var model = this.getModel();
-    var childCount = model.getChildCount(model.root);
-
-    for (var i = 0; i < childCount; i++)
-    {
-        (function(layer)
-        {
-            var span = document.createElement('div');
-            span.style.overflow = 'hidden';
-            span.style.textOverflow = 'ellipsis';
-            span.style.padding = '2px';
-            span.style.whiteSpace = 'nowrap';
-
-            var cb = document.createElement('input');
-            cb.setAttribute('type', 'checkbox');
-
-            if (model.isVisible(layer))
-            {
-                cb.setAttribute('checked', 'checked');
-                cb.defaultChecked = true;
-            }
-
-            span.appendChild(cb);
-            var title = layer.value || (mxResources.get('background') || 'Background');
-            span.setAttribute('title', title);
-            mxUtils.write(span, title);
-            div.appendChild(span);
-
-            mxEvent.addListener(cb, 'click', function()
-            {
-                if (cb.getAttribute('checked') != null)
-                {
-                    cb.removeAttribute('checked');
-                }
-                else
-                {
-                    cb.setAttribute('checked', 'checked');
-                }
-
-                model.setVisible(layer, cb.checked);
-            });
-        }(model.getChildAt(model.root, i)));
-    }
-
-    return div;
-};
-
-var LayersWindow = function(editorUi, x, y, w, h)
+var LayersPalette = function(editorUi, x, y, w, h)
 {
     var graph = editorUi.editor.graph;
 
-    var div = document.createElement('div');
-    div.style.userSelect = 'none';
-    div.style.background = 'whiteSmoke';
-    div.style.border = '1px solid whiteSmoke';
-    div.style.height = '100%';
-    div.style.marginBottom = '10px';
-    div.style.overflow = 'auto';
+    this.layersDiv = document.createElement('div');
+    this.layersDiv.style.userSelect = 'none';
+    this.layersDiv.style.background = 'whiteSmoke';
+    this.layersDiv.style.border = '1px solid whiteSmoke';
+    this.layersDiv.style.marginBottom = '10px';
+    this.layersDiv.style.overflow = 'auto';
 
     var tbarHeight = (!EditorUi.compactUi) ? '30px' : '26px';
 
     var listDiv = document.createElement('div')
     listDiv.style.backgroundColor = '#e5e5e5';
-    listDiv.style.position = 'absolute';
     listDiv.style.overflow = 'auto';
     listDiv.style.left = '0px';
     listDiv.style.right = '0px';
-    listDiv.style.top = '0px';
-    listDiv.style.bottom = (parseInt(tbarHeight) + 7) + 'px';
-    div.appendChild(listDiv);
+
+    this.layersDiv.appendChild(listDiv);
 
     var dragSource = null;
     var dropIndex = null;
 
-    mxEvent.addListener(div, 'dragover', function(evt)
+    mxEvent.addListener(this.layersDiv, 'dragover', function(evt)
     {
         evt.dataTransfer.dropEffect = 'move';
         dropIndex = 0;
@@ -86,7 +31,7 @@ var LayersWindow = function(editorUi, x, y, w, h)
     });
 
     // Workaround for "no element found" error in FF
-    mxEvent.addListener(div, 'drop', function(evt)
+    mxEvent.addListener(this.layersDiv, 'drop', function(evt)
     {
         evt.stopPropagation();
         evt.preventDefault();
@@ -95,26 +40,26 @@ var LayersWindow = function(editorUi, x, y, w, h)
     var layerCount = null;
     var selectionLayer = null;
 
-    var ldiv = document.createElement('div');
-
-    ldiv.className = 'geToolbarContainer';
-    ldiv.style.position = 'absolute';
-    ldiv.style.bottom = '0px';
-    ldiv.style.left = '0px';
-    ldiv.style.right = '0px';
-    ldiv.style.height = tbarHeight;
-    ldiv.style.overflow = 'hidden';
-    ldiv.style.padding = (!EditorUi.compactUi) ? '1px' : '4px 0px 3px 0px';
-    ldiv.style.backgroundColor = 'whiteSmoke';
-    ldiv.style.borderWidth = '1px 0px 0px 0px';
-    ldiv.style.borderColor = '#c3c3c3';
-    ldiv.style.borderStyle = 'solid';
-    ldiv.style.display = 'block';
-    ldiv.style.whiteSpace = 'nowrap';
+    var layersToolbar = document.createElement('div');
+    layersToolbar.className = 'geToolbarContainer';
+    layersToolbar.style.position = 'relative';
+    layersToolbar.style.marginTop = '0.4em';
+    layersToolbar.style.bottom = '0px';
+    layersToolbar.style.left = '0px';
+    layersToolbar.style.right = '0px';
+    layersToolbar.style.height = tbarHeight;
+    layersToolbar.style.overflow = 'hidden';
+    layersToolbar.style.padding = (!EditorUi.compactUi) ? '1px' : '4px 0px 3px 0px';
+    layersToolbar.style.backgroundColor = 'whiteSmoke';
+    layersToolbar.style.borderWidth = '1px 0px 0px 0px';
+    layersToolbar.style.borderColor = '#c3c3c3';
+    layersToolbar.style.borderStyle = 'solid';
+    layersToolbar.style.display = 'block';
+    layersToolbar.style.whiteSpace = 'nowrap';
 
     if (mxClient.IS_QUIRKS)
     {
-        ldiv.style.filter = 'none';
+        layersToolbar.style.filter = 'none';
     }
 
     var link = document.createElement('a');
@@ -167,7 +112,7 @@ var LayersWindow = function(editorUi, x, y, w, h)
         removeLink.className = 'geButton mxDisabled';
     }
 
-    ldiv.appendChild(removeLink);
+    layersToolbar.appendChild(removeLink);
 
     var insertLink = link.cloneNode();
     insertLink.innerHTML = '<div class="geSprite geSprite-insert" style="display:inline-block;"></div>';
@@ -180,7 +125,7 @@ var LayersWindow = function(editorUi, x, y, w, h)
         }
     });
 
-    ldiv.appendChild(insertLink);
+    layersToolbar.appendChild(insertLink);
 
     var renameLink = link.cloneNode();
     renameLink.innerHTML = '<div class="geSprite geSprite-dots" style="display:inline-block;"></div>';
@@ -217,7 +162,7 @@ var LayersWindow = function(editorUi, x, y, w, h)
         renameLink.className = 'geButton mxDisabled';
     }
 
-    ldiv.appendChild(renameLink);
+    layersToolbar.appendChild(renameLink);
 
     var duplicateLink = link.cloneNode();
     duplicateLink.innerHTML = '<div class="geSprite geSprite-duplicate" style="display:inline-block;"></div>';
@@ -253,7 +198,7 @@ var LayersWindow = function(editorUi, x, y, w, h)
         duplicateLink.className = 'geButton mxDisabled';
     }
 
-    ldiv.appendChild(duplicateLink);
+    layersToolbar.appendChild(duplicateLink);
 
     var addLink = link.cloneNode();
     addLink.innerHTML = '<div class="geSprite geSprite-plus" style="display:inline-block;"></div>';
@@ -284,9 +229,9 @@ var LayersWindow = function(editorUi, x, y, w, h)
         addLink.className = 'geButton mxDisabled';
     }
 
-    ldiv.appendChild(addLink);
+    layersToolbar.appendChild(addLink);
 
-    div.appendChild(ldiv);
+    this.layersDiv.appendChild(layersToolbar);
 
     function refresh()
     {
@@ -579,44 +524,4 @@ var LayersWindow = function(editorUi, x, y, w, h)
     // Make refresh available via instance
     this.refreshLayers = refresh;
 
-    // Add to format container
-    editorUi.formatContainer.querySelector('#layersPlaceholder').appendChild( div);
-
-    /*this.window = new mxWindow(mxResources.get('layers'), div, x, y, w, h, true, true);
-    this.window.destroyOnClose = false;
-    this.window.setMaximizable(false);
-    this.window.setResizable(true);
-    this.window.setClosable(true);
-    this.window.setVisible(true);
-
-    this.window.setLocation = function(x, y)
-    {
-        x = Math.max(0, x);
-        y = Math.max(0, y);
-        mxWindow.prototype.setLocation.apply(this, arguments);
-    };
-
-    mxEvent.addListener(window, 'resize', mxUtils.bind(this, function()
-    {
-        var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        var ih = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-        var x = this.window.getX();
-        var y = this.window.getY();
-
-        if (x + this.window.table.clientWidth > iw)
-        {
-            x = Math.max(0, iw - this.window.table.clientWidth);
-        }
-
-        if (y + this.window.table.clientHeight > ih)
-        {
-            y = Math.max(0, ih - this.window.table.clientHeight);
-        }
-
-        if (this.window.getX() != x || this.window.getY() != y)
-        {
-            this.window.setLocation(x, y);
-        }
-    })); */
 };

@@ -13,7 +13,6 @@
     "express": "^4.15.3",
     "node-gyp": "^3.6.2",
     "openseadragon": "^2.2.1",
-    "sharp": "^0.18.1",
     "spdy": "^3.4.7"
   }
 }

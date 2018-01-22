@@ -69,6 +69,7 @@ Actions.prototype.init = function()
 			window.openFile = null;
 		});
 	}).isEnabled = isGraphEnabled;
+
 	this.addAction('save', function() { ui.saveFile(false); }, null, null, 'Ctrl+S').isEnabled = isGraphEnabled;
 	this.addAction('saveAs...', function() { ui.saveFile(true); }, null, null, 'Ctrl+Shift+S').isEnabled = isGraphEnabled;
 	this.addAction('export...', function() { ui.showDialog(new ExportDialog(ui).container, 300, 230, true, true); });
@@ -305,6 +306,7 @@ Actions.prototype.init = function()
 			});
 		}
 	});
+
 	this.addAction('insertLink...', function()
 	{
 		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))
@@ -348,6 +350,7 @@ Actions.prototype.init = function()
 			dlg.init();
 		}
 	}).isEnabled = isGraphEnabled;
+
 	this.addAction('link...', mxUtils.bind(this, function()
 	{
 		var graph = ui.editor.graph;
@@ -386,6 +389,7 @@ Actions.prototype.init = function()
 			}
 		}
 	})).isEnabled = isGraphEnabled;
+
 	this.addAction('autosize', function()
 	{
 		var cells = graph.getSelectionCells();
@@ -526,9 +530,19 @@ Actions.prototype.init = function()
 		graph.zoomTo(1);
 		ui.resetScrollbars();
 	}, null, null, 'Ctrl+H');
+
+	this.addAction('playGraph', function(evt){ console.log('playGraph'); }, null, null, 'Ctrl+G');
+
+    this.addAction('playSelected', function(evt){}, null, null, 'Ctrl+P');
+
+    this.addAction('stopGraph', function(evt){}, null, null, 'Ctrl+S');
+
 	this.addAction('zoomIn', function(evt) { graph.zoomIn(); }, null, null, 'Ctrl + / Alt+Mousewheel');
 	this.addAction('zoomOut', function(evt) { graph.zoomOut(); }, null, null, 'Ctrl - / Alt+Mousewheel');
+
 	this.addAction('fitWindow', function() { graph.fit(); }, null, null, 'Ctrl+Shift+H');
+	this.addAction('fitSelected', function() { graph.fitSelected();}, null, null, 'Cttrl+Shift+S');
+
 	this.addAction('fitPage', mxUtils.bind(this, function()
 	{
 		if (!graph.pageVisible)
@@ -538,8 +552,8 @@ Actions.prototype.init = function()
 		
 		var fmt = graph.pageFormat;
 		var ps = graph.pageScale;
-		var cw = graph.container.clientWidth - 10;
-		var ch = graph.container.clientHeight - 10;
+		var cw = graph.container.clientWidth - 20;
+		var ch = graph.container.clientHeight - 20;
 		var scale = Math.floor(20 * Math.min(cw / fmt.width / ps, ch / fmt.height / ps)) / 20;
 		graph.zoomTo(scale);
 		
@@ -572,6 +586,7 @@ Actions.prototype.init = function()
 			graph.container.scrollLeft = Math.min(pad.x, (graph.container.scrollWidth - graph.container.clientWidth) / 2);
 		}
 	}), null, null, 'Ctrl+Shift+J');
+
 	this.addAction('fitPageWidth', mxUtils.bind(this, function()
 	{
 		if (!graph.pageVisible)
@@ -593,6 +608,7 @@ Actions.prototype.init = function()
 				(graph.container.scrollWidth - graph.container.clientWidth) / 2);
 		}
 	}));
+
 	this.put('customZoom', new Action(mxResources.get('custom') + '...', mxUtils.bind(this, function()
 	{
 		var dlg = new FilenameDialog(this.editorUi, parseInt(graph.getView().getScale() * 100), mxResources.get('apply'), mxUtils.bind(this, function(newValue)
@@ -1110,7 +1126,7 @@ Actions.prototype.init = function()
 		{
 			// LATER: Check outline window for initial placement
 			this.layersWindow = new LayersWindow(ui, document.body.offsetWidth - 280, 120, 220, 180);
-			/*this.layersWindow.window.addListener('show', function()
+			this.layersWindow.window.addListener('show', function()
 			{
             	ui.fireEvent(new mxEventObject('layers'));
 			});
@@ -1118,15 +1134,15 @@ Actions.prototype.init = function()
 			{
 				ui.fireEvent(new mxEventObject('layers'));
 			});
-			this.layersWindow.window.setVisible(true);*/
+			this.layersWindow.window.setVisible(true);
 			ui.fireEvent(new mxEventObject('layers'));
 		}
 		else
 		{
-			//this.layersWindow.window.setVisible(!this.layersWindow.window.isVisible());
+			this.layersWindow.window.setVisible(!this.layersWindow.window.isVisible());
 		}
 		
-		//ui.fireEvent(new mxEventObject('layers'));
+		ui.fireEvent(new mxEventObject('layers'));
 	}), null, null, 'Ctrl+Shift+L');
 	action.setToggleAction(true);
 	action.setSelectedCallback(mxUtils.bind(this, function() { return this.layersWindow != null && ui.formatWidth > 0; }));
@@ -1202,65 +1218,4 @@ Actions.prototype.put = function(name, action)
 Actions.prototype.get = function(name)
 {
 	return this.actions[name];
-};
-
-/**
- * Constructs a new action for the given parameters.
- */
-function Action(label, funct, enabled, iconCls, shortcut)
-{
-	mxEventSource.call(this);
-	this.label = label;
-	this.funct = funct;
-	this.enabled = (enabled != null) ? enabled : true;
-	this.iconCls = iconCls;
-	this.shortcut = shortcut;
-	this.visible = true;
-};
-
-// Action inherits from mxEventSource
-mxUtils.extend(Action, mxEventSource);
-
-/**
- * Sets the enabled state of the action and fires a stateChanged event.
- */
-Action.prototype.setEnabled = function(value)
-{
-	if (this.enabled != value)
-	{
-		this.enabled = value;
-		this.fireEvent(new mxEventObject('stateChanged'));
-	}
-};
-
-/**
- * Sets the enabled state of the action and fires a stateChanged event.
- */
-Action.prototype.isEnabled = function()
-{
-	return this.enabled;
-};
-
-/**
- * Sets the enabled state of the action and fires a stateChanged event.
- */
-Action.prototype.setToggleAction = function(value)
-{
-	this.toggleAction = value;
-};
-
-/**
- * Sets the enabled state of the action and fires a stateChanged event.
- */
-Action.prototype.setSelectedCallback = function(funct)
-{
-	this.selectedCallback = funct;
-};
-
-/**
- * Sets the enabled state of the action and fires a stateChanged event.
- */
-Action.prototype.isSelected = function()
-{
-	return this.selectedCallback();
 };

@@ -4277,7 +4277,7 @@ if (typeof mxVertexHandler != 'undefined')
 		{
 			// Creates a new edge label with a predefined text
 			var label = new mxCell();
-			label.value = 'Text';
+			label.value = '';
 			label.style = 'text;html=1;resizable=0;points=[];'
 			label.geometry = new mxGeometry(0, 0, 0, 0);
 			label.vertex = true;

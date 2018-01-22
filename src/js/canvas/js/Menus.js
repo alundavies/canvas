@@ -427,7 +427,7 @@ Menus.prototype.init = function()
 		this.addMenuItems(menu, ((this.editorUi.format != null) ? ['formatPanel'] : []).
 			concat(['outline', 'layers', '-', 'pageView', 'pageScale', '-', 'scrollbars', 'tooltips', '-',
 			        'grid', 'guides', '-', 'connectionArrows', 'connectionPoints', '-',
-			        'resetView', 'zoomIn', 'zoomOut'], parent));
+			        'resetView', 'fitWindow', 'zoomIn', 'zoomOut'], parent));
 	})));
 	// Two special dropdowns that are only used in the toolbar
 	this.put('viewPanels', new Menu(mxUtils.bind(this, function(menu, parent)

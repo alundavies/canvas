@@ -333,13 +333,7 @@ Format.prototype.refresh = function()
 	this.container.appendChild(div);
 
 
-    var layersDiv = document.createElement( 'div');
-    layersDiv.id = 'layersPlaceholder';
-    layersDiv.style.minHeight='50px';
-    layersDiv.style.width='100%';
-    layersDiv.innertText = 'Hello';
-	layersDiv.appendChild( document.createTextNode('Hello layers tab'));
-	div.appendChild( layersDiv);
+
 	
 	if (graph.isSelectionEmpty())
 	{

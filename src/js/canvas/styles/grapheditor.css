@@ -540,6 +540,11 @@ div.mxWindow .geButton {
 .geSprite-top { background-position: 0 -828px; }
 .geSprite-underline { background-position: 0 -874px; }
 .geSprite-undo { background-position: 0 -920px; }
+.geSprite-playgraph {  background-position: 0 -920px; }
+.geSprite-playselected {  background-position: 0 -920px; }
+.geSprite-stopgraph {  background-position: 0 -920px; }
+.geSprite-fitwindow { background-position: 0 0; }
+.geSprite-fitselected { background-position: 0 0; }
 .geSprite-zoomin { background-position: 0 -966px; }
 .geSprite-zoomout { background-position: 0 -1012px; }
 .geSprite-arrow { background-position: 0 -1059px; }

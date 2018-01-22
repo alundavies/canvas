@@ -3014,6 +3014,78 @@ mxGraph.prototype.fit = function(border, keepOrigin, margin, enabled, ignoreWidt
 	return this.view.scale;
 };
 
+mxGraph.prototype.fitSelected = function() {
+
+    let cells = this.getSelectionModel().cells
+
+    if( cells==null || cells.length==0){
+        return this.fit();
+    }
+
+    let bounds = this.view.getBounds( cells);
+    console.log( 'fitSelected', bounds);
+
+
+    var cssBorder = this.getBorderSizes();
+    var w1 = this.container.offsetWidth - cssBorder.x - cssBorder.width - 1;
+    var h1 = this.container.offsetHeight - cssBorder.y - cssBorder.height - 1;
+
+    // LATER: Use unscaled bounding boxes to fix rounding errors
+    var s = this.view.scale;
+    var w2 = bounds.width / s;
+    var h2 = bounds.height / s;
+
+    // Fits to the size of the background image if required
+    if (this.backgroundImage != null)
+    {
+        w2 = Math.max(w2, this.backgroundImage.width - bounds.x / s);
+        h2 = Math.max(h2, this.backgroundImage.height - bounds.y / s);
+    }
+
+    //var b = ((keepOrigin) ? border : 2 * border) + margin;
+    let b = 0;
+    w1 -= b;
+    h1 -= b;
+
+    var s2 = Math.min(w1 / w2, h1 / h2);
+
+    if (this.minFitScale != null)
+    {
+        s2 = Math.max(s2, this.minFitScale);
+    }
+
+    if (this.maxFitScale != null)
+    {
+        s2 = Math.min(s2, this.maxFitScale);
+    }
+
+    if (!mxUtils.hasScrollbars(this.container))
+    {
+        var x0 = (bounds.x != null) ? Math.floor(this.view.translate.x - bounds.x / s + border / s2 + margin / 2) : border;
+        var y0 = (bounds.y != null) ? Math.floor(this.view.translate.y - bounds.y / s + border / s2 + margin / 2) : border;
+
+        this.view.scaleAndTranslate(s2, x0, y0);
+    }
+    else
+    {
+        this.view.setScale(s2);
+        let bounds = this.view.getBounds( cells);
+        //var b2 = this.getGraphBounds(); // get selectin bounds
+
+        if (bounds.x != null)
+        {
+            this.container.scrollLeft = bounds.x;
+        }
+
+        if (bounds.y != null)
+        {
+            this.container.scrollTop = bounds.y;
+        }
+    }
+
+    return this.view.scale;
+};
+
 /**
  * Function: sizeDidChange
  * 

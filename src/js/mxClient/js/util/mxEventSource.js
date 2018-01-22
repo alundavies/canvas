@@ -18,7 +18,7 @@
  * Known Subclasses:
  *
  * <mxGraphModel>, <mxGraph>, <mxGraphView>, <mxEditor>, <mxCellOverlay>,
- * <mxToolbar>, <mxWindow>
+ * <mxToolbar>, <mxWindow>, <Action>
  * 
  * Constructor: mxEventSource
  *

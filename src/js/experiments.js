@@ -72,7 +72,7 @@ class Experiments {
 
         if( style!=null) {
             style = style.split(';');
-            for (let styleAttribute in style) {
+            for ( let styleAttribute in style) {
                 if (style[styleAttribute].startsWith(attr + '=')) {
                     style[styleAttribute] = attr + '=' + value;
                     return style.join(';');
@@ -186,7 +186,7 @@ class Experiments {
                 if( value=='JavaScript'){
                     console.log( 'Javascript detected');
                 }
-                else if( value.trim().startsWith( 'function')){
+                else if( value && value.trim && value.trim().startsWith( 'function') ) {
                     console.log( 'Javascript function detected: ', cell);
                     eval( value);
                 }

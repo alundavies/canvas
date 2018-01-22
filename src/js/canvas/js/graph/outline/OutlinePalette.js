@@ -1,33 +1,19 @@
 
-/**
- *
- */
-var OutlineWindow = function(editorUi, x, y, w, h)
+var OutlinePalette = function(editorUi, x, y, w, h)
 {
+    var self = this;
+
     var graph = editorUi.editor.graph;
 
-    var div = document.createElement('div');
-    div.style.position = 'absolute';
-    div.style.width = '100%';
-    div.style.height = '100%';
-    div.style.border = '1px solid whiteSmoke';
-    div.style.overflow = 'hidden';
+    this.outlineDiv = document.createElement('div');
+    this.outlineDiv.style.position = 'absolute';
+    this.outlineDiv.style.width = '100%';
+    this.outlineDiv.style.height = '100%';
+    this.outlineDiv.style.border = '1px solid whiteSmoke';
+    this.outlineDiv.style.overflow = 'hidden';
 
-    this.window = new mxWindow(mxResources.get('outline'), div, x, y, w, h, true, true);
-    this.window.destroyOnClose = false;
-    this.window.setMaximizable(false);
-    this.window.setResizable(true);
-    this.window.setClosable(true);
-    this.window.setVisible(true);
 
-    this.window.setLocation = function(x, y)
-    {
-        x = Math.max(0, x);
-        y = Math.max(0, y);
-        mxWindow.prototype.setLocation.apply(this, arguments);
-    };
-
-    mxEvent.addListener(window, 'resize', mxUtils.bind(this, function()
+    /*mxEvent.addListener(window, 'resize', mxUtils.bind(this, function()
     {
         var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var ih = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -49,40 +35,13 @@ var OutlineWindow = function(editorUi, x, y, w, h)
         {
             this.window.setLocation(x, y);
         }
-    }));
+    }));*/
 
-    var outline = editorUi.createOutline(this.window);
+    var outline = editorUi.createOutline();
 
-    this.window.addListener(mxEvent.RESIZE, mxUtils.bind(this, function()
-    {
-        outline.update(false);
-        outline.outline.sizeDidChange();
-    }));
-
-    this.window.addListener(mxEvent.SHOW, mxUtils.bind(this, function()
-    {
-        outline.suspended = false;
-        outline.outline.refresh();
-        outline.update();
-    }));
-
-    this.window.addListener(mxEvent.HIDE, mxUtils.bind(this, function()
-    {
-        outline.suspended = true;
-    }));
-
-    this.window.addListener(mxEvent.NORMALIZE, mxUtils.bind(this, function()
-    {
-        outline.suspended = false;
-        outline.update();
-    }));
-
-    this.window.addListener(mxEvent.MINIMIZE, mxUtils.bind(this, function()
-    {
-        outline.suspended = true;
-    }));
 
     var outlineCreateGraph = outline.createGraph;
+
     outline.createGraph = function(container)
     {
         var g = outlineCreateGraph.apply(this, arguments);
@@ -93,7 +52,7 @@ var OutlineWindow = function(editorUi, x, y, w, h)
         g.pageVisible = graph.pageVisible;
 
         var current = mxUtils.getCurrentStyle(graph.container);
-        div.style.backgroundColor = current.backgroundColor;
+        //self.outlineDiv.style.backgroundColor = current.backgroundColor;
 
         return g;
     };
@@ -106,7 +65,9 @@ var OutlineWindow = function(editorUi, x, y, w, h)
         outline.outline.background = graph.background;
 
         var current = mxUtils.getCurrentStyle(graph.container);
-        div.style.backgroundColor = current.backgroundColor;
+
+
+        self.outlineDiv.style.backgroundColor = current.backgroundColor;
 
         if (graph.view.backgroundPageShape != null && outline.outline.view.backgroundPageShape != null)
         {
@@ -116,7 +77,7 @@ var OutlineWindow = function(editorUi, x, y, w, h)
         outline.outline.refresh();
     };
 
-    outline.init(div);
+    outline.init(this.outlineDiv);
 
     editorUi.editor.addListener('resetGraphView', update);
     editorUi.addListener('pageFormatChanged', update);

@@ -2467,7 +2467,7 @@ EditorUi.prototype.updateActionStates = function()
 	               'editStyle', 'editTooltip', 'editLink', 'backgroundColor', 'borderColor',
 	               'edit', 'toFront', 'toBack', 'lockUnlock', 'solid', 'dashed',
 	               'dotted', 'fillColor', 'gradientColor', 'shadow', 'fontColor',
-	               'formattedText', 'rounded', 'toggleRounded', 'sharp', 'strokeColor'];
+	               /*'formattedText',*/ 'rounded', 'toggleRounded', 'sharp', 'strokeColor'];
 	
 	for (var i = 0; i < actions.length; i++)
 	{
@@ -3328,7 +3328,7 @@ EditorUi.prototype.confirm = function(msg, okFn, cancelFn)
 /**
  * Creates the keyboard event handler for the current graph and history.
  */
-EditorUi.prototype.createOutline = function(wnd)
+EditorUi.prototype.createOutline = function()
 {
 	var outline = new mxOutline(this.editor.graph);
 	outline.border = 20;

@@ -58,6 +58,13 @@ Toolbar.prototype.init = function()
 	
 	// Takes into account initial compact mode
 	sw -= (screen.height > 740) ? 56 : 0;
+
+	var playElements = this.addItems( [ 'playGraph', 'playSelected', 'stopGraph']);
+    playElements[0].setAttribute('title', mxResources.get('playGraph') + ' (' + this.editorUi.actions.get('playGraph').shortcut + ')');
+    playElements[1].setAttribute('title', mxResources.get('playSelected') + ' (' + this.editorUi.actions.get('playSelected').shortcut + ')');
+    playElements[2].setAttribute('title', mxResources.get('stopGraph') + ' (' + this.editorUi.actions.get('playGraph').shortcut + ')');
+
+	this.addSeparator();
 	
 	if (sw >= 700)
 	{
@@ -84,9 +91,11 @@ Toolbar.prototype.init = function()
 	if (sw >= 420)
 	{
 		this.addSeparator();
-		var elts = this.addItems(['zoomIn', 'zoomOut']);
-		elts[0].setAttribute('title', mxResources.get('zoomIn') + ' (' + this.editorUi.actions.get('zoomIn').shortcut + ')');
-		elts[1].setAttribute('title', mxResources.get('zoomOut') + ' (' + this.editorUi.actions.get('zoomOut').shortcut + ')');
+		var elts = this.addItems([ 'fitWindow', 'zoomIn', 'zoomOut', 'fitSelected']);
+        elts[0].setAttribute('title', mxResources.get('fitWindow') + ' (' + this.editorUi.actions.get('fitWindow').shortcut + ')');
+		elts[1].setAttribute('title', mxResources.get('zoomIn') + ' (' + this.editorUi.actions.get('zoomIn').shortcut + ')');
+		elts[2].setAttribute('title', mxResources.get('zoomOut') + ' (' + this.editorUi.actions.get('zoomOut').shortcut + ')');
+        elts[3].setAttribute('title', mxResources.get('fitSelected') + ' (' + this.editorUi.actions.get('fitSelected').shortcut + ')');
 	}
 	
 	// Updates the label if the scale changes

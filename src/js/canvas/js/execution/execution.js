@@ -3,12 +3,16 @@ class Execution {
         this.graph=graph;
     }
 
-    runVertex( id){
+    runVertexWithId( id){
         let cell = graph.model.getCell( id);
         if( cell.context && cell.context.run()){
-            setTimeout( ()=> {
+            setTimeout( () => {
                 cell.context.run();
             }, 0);
         }
+    }
+
+    runGraph() {
+        this.graph
     }
 }

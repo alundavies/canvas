@@ -89,9 +89,12 @@ function Sidebar(editorUi, container)
 Sidebar.prototype.init = function()
 {
 	var dir = STENCIL_PATH;
-	
+
+	this.addLayersPalette( true);
+	this.addGraphExecutionPalette( false);
 	this.addSearchPalette(true);
 	this.addBlueprintPalette(true);
+	this.addOutlinePalette( true);
 	this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
 		['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
 		 'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
@@ -575,6 +578,52 @@ Sidebar.prototype.cloneCell = function(cell, value)
 	}
 	
 	return clone;
+};
+
+
+/**
+ * Add outline pallette
+ */
+Sidebar.prototype.addOutlinePalette = function( expand){
+
+    let editorUi = this.editorUi;
+
+    this.addPalette( 'Outline', mxResources.get('outline'), expand, function( content){
+
+        this.outlinePalette = new OutlinePalette( editorUi, document.body.offsetWidth - 280, 120, 220, 180);
+        var outlineDiv = this.outlinePalette.outlineDiv;
+        content.appendChild( outlineDiv);
+    });
+};
+
+/**
+ * Add layers pallette
+ */
+Sidebar.prototype.addLayersPalette = function( expand){
+
+	let editorUi = this.editorUi;
+
+    this.addPalette( 'Layers', mxResources.get('layers'), true, function( content){
+
+        this.layersWindow = new LayersPalette( editorUi, document.body.offsetWidth - 280, 120, 220, 180);
+        var layersDiv = this.layersWindow.layersDiv;
+        content.appendChild( layersDiv);
+	});
+};
+
+
+/**
+ * Add control pallette
+ */
+
+Sidebar.prototype.addGraphExecutionPalette = function( expand){
+    var fns = [
+        this.createVertexTemplateEntry('triangle;whiteSpace=wrap;html=1;', 60, 80, '', 'Triangle', null, null, 'Play graph or selected nodes'),
+
+        //this.createVertexTemplateEntry('swimlane;whiteSpace=wrap;html=1;', 200, 200, 'Container', 'Container', null, null, 'container swimlane lane pool'),
+    ];
+
+    this.addPaletteFunctions( 'Graph Execution', mxResources.get('graphExecution'),  (expand != null) ? expand : true, fns);
 };
 
 /**
