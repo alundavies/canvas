@@ -6,7 +6,7 @@ var OutlinePalette = function(editorUi, x, y, w, h)
     var graph = editorUi.editor.graph;
 
     this.outlineDiv = document.createElement('div');
-    this.outlineDiv.style.position = 'absolute';
+    //this.outlineDiv.style.position = 'absolute';
     this.outlineDiv.style.width = '100%';
     this.outlineDiv.style.height = '100%';
     this.outlineDiv.style.border = '1px solid whiteSmoke';
