@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
     Tiler - creates tiles of a larger image
 
@@ -6,7 +7,7 @@
  find . -name "*.png" -print0 | xargs -0 -n 1 -P 4 pngcrush -d ../compressed -reduce
 
  */
-const { spawn } = require('child_process');
+const child_process_1 = require("child_process");
 const inputPath = '../capture/images/bbc_sport_x3.png';
 const zoomDepth = 10;
 const outputPath = `../capture/images/tiles/zoom_${zoomDepth}_%[filename:tile].png`;
@@ -26,7 +27,7 @@ for (let x = 0; x < 512 / offsetX; x++) {
 function burn(inputPath, outputPath, x, y) {
     console.log(x, y);
     const args = `${inputPath} -crop ${tileSize}x${tileSize} -set filename:tile %[fx:page.x/${tileSize}+${x}]_%[fx:page.y/${tileSize}+${y}] +repage +adjoin ${outputPath}`;
-    const ls = spawn('convert', args.split(' '));
+    const ls = child_process_1.spawn('convert', args.split(' '));
     ls.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
     });

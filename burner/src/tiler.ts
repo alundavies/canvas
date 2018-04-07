@@ -5,7 +5,7 @@
  find . -name "*.png" -print0 | xargs -0 -n 1 -P 4 pngcrush -d ../compressed -reduce
 
  */
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
 
 const inputPath : string = '../capture/images/bbc_sport_x3.png';
 

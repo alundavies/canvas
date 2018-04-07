@@ -16,8 +16,8 @@ function Actions(editorUi)
  */
 Actions.prototype.init = function()
 {
-	var ui = this.editorUi;
-	var editor = ui.editor;
+	var editorUi = this.editorUi;
+	var editor = editorUi.editor;
 	var graph = editor.graph;
 	var isGraphEnabled = function()
 	{
@@ -25,14 +25,14 @@ Actions.prototype.init = function()
 	};
 
 	// File actions
-	this.addAction('new...', function() { window.open(ui.getUrl()); });
+	this.addAction('new...', function() { window.open(editorUi.getUrl()); });
 
 	this.addAction('open...', function()
 	{
 		window.openNew = true;
 		window.openKey = 'open';
 		
-		ui.openFile();
+		editorUi.openFile();
 	});
 	this.addAction('import...', function()
 	{
@@ -42,7 +42,7 @@ Actions.prototype.init = function()
 		// Closes dialog after open
 		window.openFile = new OpenFile(mxUtils.bind(this, function()
 		{
-			ui.hideDialog();
+			editorUi.hideDialog();
 		}));
 		
 		window.openFile.setConsumer(mxUtils.bind(this, function(xml, filename)
@@ -64,28 +64,28 @@ Actions.prototype.init = function()
 		}));
 
 		// Removes openFile if dialog is closed
-		ui.showDialog(new OpenDialog(this).container, 320, 220, true, true, function()
+		editorUi.showDialog(new OpenDialog(this).container, 320, 220, true, true, function()
 		{
 			window.openFile = null;
 		});
 	}).isEnabled = isGraphEnabled;
 
-	this.addAction('save', function() { ui.saveFile(false); }, null, null, 'Ctrl+S').isEnabled = isGraphEnabled;
-	this.addAction('saveAs...', function() { ui.saveFile(true); }, null, null, 'Ctrl+Shift+S').isEnabled = isGraphEnabled;
-	this.addAction('export...', function() { ui.showDialog(new ExportDialog(ui).container, 300, 230, true, true); });
+	this.addAction('save', function() { editorUi.saveFile(false); }, null, null, 'Ctrl+S').isEnabled = isGraphEnabled;
+	this.addAction('saveAs...', function() { editorUi.saveFile(true); }, null, null, 'Ctrl+Shift+S').isEnabled = isGraphEnabled;
+	this.addAction('export...', function() { editorUi.showDialog(new ExportDialog(editorUi).container, 300, 230, true, true); });
 	this.addAction('editDiagram...', function()
 	{
-		var dlg = new EditDiagramDialog(ui);
-		ui.showDialog(dlg.container, 620, 420, true, true);
+		var dlg = new EditDiagramDialog(editorUi);
+		editorUi.showDialog(dlg.container, 620, 420, true, true);
 		dlg.init();
 	});
-	this.addAction('pageSetup...', function() { ui.showDialog(new PageSetupDialog(ui).container, 320, 220, true, true); }).isEnabled = isGraphEnabled;
-	this.addAction('print...', function() { ui.showDialog(new PrintDialog(ui).container, 300, 180, true, true); }, null, 'sprite-print', 'Ctrl+P');
+	this.addAction('pageSetup...', function() { editorUi.showDialog(new PageSetupDialog(editorUi).container, 320, 220, true, true); }).isEnabled = isGraphEnabled;
+	this.addAction('print...', function() { editorUi.showDialog(new PrintDialog(editorUi).container, 300, 180, true, true); }, null, 'sprite-print', 'Ctrl+P');
 	this.addAction('preview', function() { mxUtils.show(graph, null, 10, 10); });
 	
 	// Edit actions
-	this.addAction('undo', function() { ui.undo(); }, null, 'sprite-undo', 'Ctrl+Z');
-	this.addAction('redo', function() { ui.redo(); }, null, 'sprite-redo', (!mxClient.IS_WIN) ? 'Ctrl+Shift+Z' : 'Ctrl+Y');
+	this.addAction('undo', function() { editorUi.undo(); }, null, 'sprite-undo', 'Ctrl+Z');
+	this.addAction('redo', function() { editorUi.redo(); }, null, 'sprite-redo', (!mxClient.IS_WIN) ? 'Ctrl+Shift+Z' : 'Ctrl+Y');
 	this.addAction('cut', function() { mxClipboard.cut(graph); }, null, 'sprite-cut', 'Ctrl+X');
 	this.addAction('copy', function() { mxClipboard.copy(graph); }, null, 'sprite-copy', 'Ctrl+C');
 	this.addAction('paste', function()
@@ -249,14 +249,14 @@ Actions.prototype.init = function()
 		
 		if (cell != null)
 		{
-			var dlg = new EditDataDialog(ui, cell);
-			ui.showDialog(dlg.container, 320, 320, true, false);
+			var dlg = new EditDataDialog(editorUi, cell);
+			editorUi.showDialog(dlg.container, 320, 320, true, false);
 			dlg.init();
 		}
 	}, null, null, 'Ctrl+M');
 	this.addAction('editTooltip...', function()
 	{
-		var graph = ui.editor.graph;
+		var graph = editorUi.editor.graph;
 		
 		if (graph.isEnabled() && !graph.isSelectionEmpty())
 		{
@@ -273,11 +273,11 @@ Actions.prototype.init = function()
 				}
 			}
 			
-	    	var dlg = new TextareaDialog(ui, mxResources.get('editTooltip') + ':', tooltip, function(newValue)
+	    	var dlg = new TextareaDialog(editorUi, mxResources.get('editTooltip') + ':', tooltip, function(newValue)
 			{
 				graph.setTooltipForCell(cell, newValue);
 			});
-			ui.showDialog(dlg.container, 320, 200, true, true);
+			editorUi.showDialog(dlg.container, 320, 200, true, true);
 			dlg.init();
 		}
 	});
@@ -292,14 +292,14 @@ Actions.prototype.init = function()
 	});
 	this.addAction('editLink...', function()
 	{
-		var graph = ui.editor.graph;
+		var graph = editorUi.editor.graph;
 		
 		if (graph.isEnabled() && !graph.isSelectionEmpty())
 		{
 			var cell = graph.getSelectionCell();
 			var value = graph.getLinkForCell(cell) || '';
 			
-			ui.showLinkDialog(value, mxResources.get('apply'), function(link)
+			editorUi.showLinkDialog(value, mxResources.get('apply'), function(link)
 			{
 				link = mxUtils.trim(link);
     			graph.setLinkForCell(cell, (link.length > 0) ? link : null);
@@ -311,7 +311,7 @@ Actions.prototype.init = function()
 	{
 		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))
 		{
-			var dlg = new LinkDialog(ui, '', mxResources.get('insert'), function(link, docs)
+			var dlg = new LinkDialog(editorUi, '', mxResources.get('insert'), function(link, docs)
 			{
 				link = mxUtils.trim(link);
 				
@@ -346,14 +346,14 @@ Actions.prototype.init = function()
 				}
 			});
 			
-			ui.showDialog(dlg.container, 420, 90, true, true);
+			editorUi.showDialog(dlg.container, 420, 90, true, true);
 			dlg.init();
 		}
 	}).isEnabled = isGraphEnabled;
 
 	this.addAction('link...', mxUtils.bind(this, function()
 	{
-		var graph = ui.editor.graph;
+		var graph = editorUi.editor.graph;
 		
 		if (graph.isEnabled())
 		{
@@ -369,7 +369,7 @@ Actions.prototype.init = function()
 				
 				var selState = graph.cellEditor.saveSelection();
 				
-				ui.showLinkDialog(oldValue, mxResources.get('apply'), mxUtils.bind(this, function(value)
+				editorUi.showLinkDialog(oldValue, mxResources.get('apply'), mxUtils.bind(this, function(value)
 				{
 		    		graph.cellEditor.restoreSelection(selState);
 
@@ -479,7 +479,7 @@ Actions.prototype.init = function()
 		    	}
 		
 		       	graph.setCellStyles('html', value);
-				ui.fireEvent(new mxEventObject('styleChanged', 'keys', ['html'],
+				editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', ['html'],
 						'values', [(value != null) ? value : '0'], 'cells',
 						graph.getSelectionCells()));
 			}
@@ -513,7 +513,7 @@ Actions.prototype.init = function()
     		value = state.style[mxConstants.STYLE_ROTATION] || value;
     	}
 
-		var dlg = new FilenameDialog(ui, value, mxResources.get('apply'), function(newValue)
+		var dlg = new FilenameDialog(editorUi, value, mxResources.get('apply'), function(newValue)
 		{
 			if (newValue != null && newValue.length > 0)
 			{
@@ -521,19 +521,48 @@ Actions.prototype.init = function()
 			}
 		}, mxResources.get('enterValue') + ' (' + mxResources.get('rotation') + ' 0-360)');
 		
-		ui.showDialog(dlg.container, 300, 80, true, true);
+		editorUi.showDialog(dlg.container, 300, 80, true, true);
 		dlg.init();
 	});
 	// View actions
 	this.addAction('resetView', function()
 	{
 		graph.zoomTo(1);
-		ui.resetScrollbars();
+		editorUi.resetScrollbars();
 	}, null, null, 'Ctrl+H');
 
-	this.addAction('playGraph', function(evt){ console.log('playGraph'); }, null, null, 'Ctrl+G');
+	this.addAction('playGraph', function(evt){
+		console.log('playGraph');
+		}, null, null, 'Ctrl+G');
 
-    this.addAction('playSelected', function(evt){}, null, null, 'Ctrl+P');
+    this.addAction('playSelected', function(evt){
+
+    	console.log( 'play Selected');
+
+    	// get the selection
+        var selectionCell = graph.getSelectionCell();
+
+		// and play each node that has a play method
+		if( selectionCell ){
+			console.log( selectionCell);
+            var state = graph.getView().getState(graph.getSelectionCell());
+			console.log( state);
+			if( state.style.shape == 'javascript') {
+				var playFunction = function( params){
+					eval( selectionCell.getValue());
+                };
+				// run this in it's own zone
+				playFunction( { cell:selectionCell, rayId: 'playSelected.'+new Date().getTime()});
+			}
+			else if( state.style.shape == 'nodejs') {
+				var playFunction = function( parmas) {
+					eval( selectionCell.getValue());
+				}
+				playFunction( { cell:selectionCell, rayId: 'playSelected.'+new Date().getTime()});
+			}
+		}
+
+	}, null, null, 'Ctrl+P');
 
     this.addAction('stopGraph', function(evt){}, null, null, 'Ctrl+S');
 
@@ -631,7 +660,7 @@ Actions.prototype.init = function()
 			
 			if (!isNaN(val) && val > 0)
 			{
-				ui.setPageScale(val / 100);
+				editorUi.setPageScale(val / 100);
 			}
 		}), mxResources.get('pageScale') + ' (%)');
 		this.editorUi.showDialog(dlg.container, 300, 80, true, true);
@@ -643,7 +672,7 @@ Actions.prototype.init = function()
 	action = this.addAction('grid', function()
 	{
 		graph.setGridEnabled(!graph.isGridEnabled());
-		ui.fireEvent(new mxEventObject('gridEnabledChanged'));
+		editorUi.fireEvent(new mxEventObject('gridEnabledChanged'));
 	}, null, null, 'Ctrl+Shift+G');
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.isGridEnabled(); });
@@ -652,7 +681,7 @@ Actions.prototype.init = function()
 	action = this.addAction('guides', function()
 	{
 		graph.graphHandler.guidesEnabled = !graph.graphHandler.guidesEnabled;
-		ui.fireEvent(new mxEventObject('guidesEnabledChanged'));
+		editorUi.fireEvent(new mxEventObject('guidesEnabledChanged'));
 	});
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.graphHandler.guidesEnabled; });
@@ -667,58 +696,58 @@ Actions.prototype.init = function()
 	
 	action = this.addAction('collapseExpand', function()
 	{
-		ui.setFoldingEnabled(!graph.foldingEnabled);
+		editorUi.setFoldingEnabled(!graph.foldingEnabled);
 	});
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.foldingEnabled; });
 	action.isEnabled = isGraphEnabled;
 	action = this.addAction('scrollbars', function()
 	{
-		ui.setScrollbars(!ui.hasScrollbars());
+		editorUi.setScrollbars(!editorUi.hasScrollbars());
 	});
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.scrollbars; });
 	action = this.addAction('pageView', mxUtils.bind(this, function()
 	{
-		ui.setPageVisible(!graph.pageVisible);
+		editorUi.setPageVisible(!graph.pageVisible);
 	}));
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.pageVisible; });
 	this.put('pageBackgroundColor', new Action(mxResources.get('backgroundColor') + '...', function()
 	{
-		ui.pickColor(graph.background || 'none', function(color)
+		editorUi.pickColor(graph.background || 'none', function(color)
 		{
-			ui.setBackgroundColor(color);
+			editorUi.setBackgroundColor(color);
 		});
 	}));
 	action = this.addAction('connectionArrows', function()
 	{
 		graph.connectionArrowsEnabled = !graph.connectionArrowsEnabled;
-		ui.fireEvent(new mxEventObject('connectionArrowsChanged'));
+		editorUi.fireEvent(new mxEventObject('connectionArrowsChanged'));
 	}, null, null, 'Ctrl+Q');
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.connectionArrowsEnabled; });
 	action = this.addAction('connectionPoints', function()
 	{
 		graph.setConnectable(!graph.connectionHandler.isEnabled());
-		ui.fireEvent(new mxEventObject('connectionPointsChanged'));
+		editorUi.fireEvent(new mxEventObject('connectionPointsChanged'));
 	}, null, null, 'Ctrl+Shift+Q');
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.connectionHandler.isEnabled(); });
 	action = this.addAction('copyConnect', function()
 	{
 		graph.connectionHandler.setCreateTarget(!graph.connectionHandler.isCreateTarget());
-		ui.fireEvent(new mxEventObject('copyConnectChanged'));
+		editorUi.fireEvent(new mxEventObject('copyConnectChanged'));
 	});
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.connectionHandler.isCreateTarget(); });
 	action.isEnabled = isGraphEnabled;
 	action = this.addAction('autosave', function()
 	{
-		ui.editor.setAutosave(!ui.editor.autosave);
+		editorUi.editor.setAutosave(!editorUi.editor.autosave);
 	});
 	action.setToggleAction(true);
-	action.setSelectedCallback(function() { return ui.editor.autosave; });
+	action.setSelectedCallback(function() { return editorUi.editor.autosave; });
 	action.isEnabled = isGraphEnabled;
 	action.visible = false;
 	
@@ -736,7 +765,7 @@ Actions.prototype.init = function()
 	});
 	this.put('about', new Action(mxResources.get('about') + ' Graph Editor...', function()
 	{
-		ui.showDialog(new AboutDialog(ui).container, 320, 280, true, true);
+		editorUi.showDialog(new AboutDialog(editorUi).container, 320, 280, true, true);
 	}, null, null, 'F1'));
 	
 	// Font style actions
@@ -761,16 +790,16 @@ Actions.prototype.init = function()
 	toggleFontStyle('underline', mxConstants.FONT_UNDERLINE, function() { document.execCommand('underline', false, null); }, 'Ctrl+U');
 	
 	// Color actions
-	this.addAction('fontColor...', function() { ui.menus.pickColor(mxConstants.STYLE_FONTCOLOR, 'forecolor', '000000'); });
-	this.addAction('strokeColor...', function() { ui.menus.pickColor(mxConstants.STYLE_STROKECOLOR); });
-	this.addAction('fillColor...', function() { ui.menus.pickColor(mxConstants.STYLE_FILLCOLOR); });
-	this.addAction('gradientColor...', function() { ui.menus.pickColor(mxConstants.STYLE_GRADIENTCOLOR); });
-	this.addAction('backgroundColor...', function() { ui.menus.pickColor(mxConstants.STYLE_LABEL_BACKGROUNDCOLOR, 'backcolor'); });
-	this.addAction('borderColor...', function() { ui.menus.pickColor(mxConstants.STYLE_LABEL_BORDERCOLOR); });
+	this.addAction('fontColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_FONTCOLOR, 'forecolor', '000000'); });
+	this.addAction('strokeColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_STROKECOLOR); });
+	this.addAction('fillColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_FILLCOLOR); });
+	this.addAction('gradientColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_GRADIENTCOLOR); });
+	this.addAction('backgroundColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_LABEL_BACKGROUNDCOLOR, 'backcolor'); });
+	this.addAction('borderColor...', function() { editorUi.menus.pickColor(mxConstants.STYLE_LABEL_BORDERCOLOR); });
 	
 	// Format actions
-	this.addAction('vertical', function() { ui.menus.toggleStyle(mxConstants.STYLE_HORIZONTAL, true); });
-	this.addAction('shadow', function() { ui.menus.toggleStyle(mxConstants.STYLE_SHADOW); });
+	this.addAction('vertical', function() { editorUi.menus.toggleStyle(mxConstants.STYLE_HORIZONTAL, true); });
+	this.addAction('shadow', function() { editorUi.menus.toggleStyle(mxConstants.STYLE_SHADOW); });
 	this.addAction('solid', function()
 	{
 		graph.getModel().beginUpdate();
@@ -778,7 +807,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_DASHED, null);
 			graph.setCellStyles(mxConstants.STYLE_DASH_PATTERN, null);
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
 				'values', [null, null], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -793,7 +822,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_DASHED, '1');
 			graph.setCellStyles(mxConstants.STYLE_DASH_PATTERN, null);
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
 				'values', ['1', null], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -808,7 +837,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_DASHED, '1');
 			graph.setCellStyles(mxConstants.STYLE_DASH_PATTERN, '1 4');
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_DASHED, mxConstants.STYLE_DASH_PATTERN],
 				'values', ['1', '1 4'], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -823,7 +852,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_ROUNDED, '0');
 			graph.setCellStyles(mxConstants.STYLE_CURVED, '0');
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
 					'values', ['0', '0'], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -838,7 +867,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_ROUNDED, '1');
 			graph.setCellStyles(mxConstants.STYLE_CURVED, '0');
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
 					'values', ['1', '0'], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -860,7 +889,7 @@ Actions.prototype.init = function()
 	    		
 				graph.setCellStyles(mxConstants.STYLE_ROUNDED, value);
 				graph.setCellStyles(mxConstants.STYLE_CURVED, null);
-				ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
+				editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
 						'values', [value, '0'], 'cells', graph.getSelectionCells()));
 			}
 			finally
@@ -876,7 +905,7 @@ Actions.prototype.init = function()
 		{
 			graph.setCellStyles(mxConstants.STYLE_ROUNDED, '0');
 			graph.setCellStyles(mxConstants.STYLE_CURVED, '1');
-			ui.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED],
 					'values', ['0', '1'], 'cells', graph.getSelectionCells()));
 		}
 		finally
@@ -895,7 +924,7 @@ Actions.prototype.init = function()
 		}
 		
 		graph.setCellStyles('collapsible', value);
-		ui.fireEvent(new mxEventObject('styleChanged', 'keys', ['collapsible'],
+		editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', ['collapsible'],
 				'values', [value], 'cells', graph.getSelectionCells()));
 	});
 	this.addAction('editStyle...', mxUtils.bind(this, function()
@@ -922,14 +951,14 @@ Actions.prototype.init = function()
 	{
 		if (graph.isEnabled() && !graph.isSelectionEmpty())
 		{
-			ui.setDefaultStyle(graph.getSelectionCell());
+			editorUi.setDefaultStyle(graph.getSelectionCell());
 		}
 	}, null, null, 'Ctrl+Shift+D');
 	this.addAction('clearDefaultStyle', function()
 	{
 		if (graph.isEnabled())
 		{
-			ui.clearDefaultStyle();
+			editorUi.clearDefaultStyle();
 		}
 	}, null, null, 'Ctrl+Shift+R');
 	this.addAction('addWaypoint', function()
@@ -969,7 +998,7 @@ Actions.prototype.init = function()
 	this.addAction('removeWaypoint', function()
 	{
 		// TODO: Action should run with "this" set to action
-		var rmWaypointAction = ui.actions.get('removeWaypoint');
+		var rmWaypointAction = editorUi.actions.get('removeWaypoint');
 		
 		if (rmWaypointAction.handler != null)
 		{
@@ -1040,7 +1069,7 @@ Actions.prototype.init = function()
 	    	
 	    	var selectionState = graph.cellEditor.saveSelection();
 	    	
-	    	ui.showImageDialog(title, value, function(newValue, w, h)
+	    	editorUi.showImageDialog(title, value, function(newValue, w, h)
 			{
 	    		// Inserts image into HTML text
 	    		if (graph.cellEditor.isContentEditing())
@@ -1116,7 +1145,7 @@ Actions.prototype.init = function()
 		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))
 		{
 			graph.clearSelection();
-			ui.actions.get('image').funct();
+			editorUi.actions.get('image').funct();
 		}
 	}).isEnabled = isGraphEnabled;
 
@@ -1125,57 +1154,57 @@ Actions.prototype.init = function()
 		if (this.layersWindow == null)
 		{
 			// LATER: Check outline window for initial placement
-			this.layersWindow = new LayersWindow(ui, document.body.offsetWidth - 280, 120, 220, 180);
+			this.layersWindow = new LayersWindow(editorUi, document.body.offsetWidth - 280, 120, 220, 180);
 			this.layersWindow.window.addListener('show', function()
 			{
-            	ui.fireEvent(new mxEventObject('layers'));
+            	editorUi.fireEvent(new mxEventObject('layers'));
 			});
 			this.layersWindow.window.addListener('hide', function()
 			{
-				ui.fireEvent(new mxEventObject('layers'));
+				editorUi.fireEvent(new mxEventObject('layers'));
 			});
 			this.layersWindow.window.setVisible(true);
-			ui.fireEvent(new mxEventObject('layers'));
+			editorUi.fireEvent(new mxEventObject('layers'));
 		}
 		else
 		{
 			this.layersWindow.window.setVisible(!this.layersWindow.window.isVisible());
 		}
 		
-		ui.fireEvent(new mxEventObject('layers'));
+		editorUi.fireEvent(new mxEventObject('layers'));
 	}), null, null, 'Ctrl+Shift+L');
 	action.setToggleAction(true);
-	action.setSelectedCallback(mxUtils.bind(this, function() { return this.layersWindow != null && ui.formatWidth > 0; }));
+	action.setSelectedCallback(mxUtils.bind(this, function() { return this.layersWindow != null && editorUi.formatWidth > 0; }));
 
 	action = this.addAction('formatPanel', mxUtils.bind(this, function()
 	{
-		ui.toggleFormatPanel();
+		editorUi.toggleFormatPanel();
 	}), null, null, 'Ctrl+Shift+P');
 	action.setToggleAction(true);
-	action.setSelectedCallback(mxUtils.bind(this, function() { return ui.formatWidth > 0; }));
+	action.setSelectedCallback(mxUtils.bind(this, function() { return editorUi.formatWidth > 0; }));
 	action = this.addAction('outline', mxUtils.bind(this, function()
 	{
 		if (this.outlineWindow == null)
 		{
 			// LATER: Check layers window for initial placement
-			this.outlineWindow = new OutlineWindow(ui, document.body.offsetWidth - 260, 100, 180, 180);
+			this.outlineWindow = new OutlineWindow(editorUi, document.body.offsetWidth - 260, 100, 180, 180);
 			this.outlineWindow.window.addListener('show', function()
 			{
-				ui.fireEvent(new mxEventObject('outline'));
+				editorUi.fireEvent(new mxEventObject('outline'));
 			});
 			this.outlineWindow.window.addListener('hide', function()
 			{
-				ui.fireEvent(new mxEventObject('outline'));
+				editorUi.fireEvent(new mxEventObject('outline'));
 			});
 			this.outlineWindow.window.setVisible(true);
-			ui.fireEvent(new mxEventObject('outline'));
+			editorUi.fireEvent(new mxEventObject('outline'));
 		}
 		else
 		{
 			this.outlineWindow.window.setVisible(!this.outlineWindow.window.isVisible());
 		}
 		
-		ui.fireEvent(new mxEventObject('outline'));
+		editorUi.fireEvent(new mxEventObject('outline'));
 	}), null, null, 'Ctrl+Shift+O');
 	
 	action.setToggleAction(true);

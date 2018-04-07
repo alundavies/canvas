@@ -4,3 +4,4 @@ javascript/dist
 .jshintrc
 javascript/examples/**/dist
 capture/images/*.png
+~$.xlsx

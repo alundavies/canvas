@@ -16,6 +16,7 @@ EditorUi.prototype.save = function(name)
         }
 
         var xml = mxUtils.getXml(this.editor.getGraphXml());
+        console.log( 'saving file ', this.editor.getOrCreateFilename(), xml);
 
         try
         {

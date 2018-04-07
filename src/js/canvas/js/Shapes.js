@@ -972,6 +972,8 @@
 
 	mxCellRenderer.prototype.defaultShapes['ext'] = ExtendedShape;
 	
+
+	
 	// Tape Shape, supports size style
 	function MessageShape()
 	{

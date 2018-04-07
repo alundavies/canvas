@@ -1,6 +1,5 @@
 import { Chrome } from 'navalia';
 import * as fs from 'fs';
-import { Buffer } from 'Buffer';
 
 const chrome = new Chrome( { flags: { headless: true}});
 

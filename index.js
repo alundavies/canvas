@@ -99,6 +99,9 @@ blueprintNamespace.on('connection', async function (socket) {
         socket.emit( 'response-save-drawing', {success:true});
     });
 
+    socket.on('nodejs-run-js', function( data){
+       eval( data.js);
+    });
 
     socket.on('log', function (data) {
         console.log( 'CLIENT: ' + data);

@@ -25,7 +25,7 @@ const url = argv.url || 'http://news.bbc.co.uk';
 const format = argv.format === 'jpeg' ? 'jpeg' : 'png';
 const viewportWidth = argv.viewportWidth || 1440;
 const viewportHeight = argv.viewportHeight || 10000;
-const delay = 30000;
+const timeoutDelay = 30000;
 const userAgent = argv.userAgent || 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.82 Mobile Safari/537.36'; // really important to include userAgent for some sites (notably news.bbc.co.uk)
 const fullPage = true; //argv.full;
 function timeout(ms) {
@@ -81,7 +81,7 @@ CDP(function (client) {
                         }
                         const config = { format: format, fromSurface: true }; // best results with fromSurface = true
                         console.log(JSON.stringify(config));
-                        yield timeout(delay);
+                        yield timeout(timeoutDelay);
                         const screenshot = yield Page.captureScreenshot(config);
                         const buffer = new Buffer(screenshot.data, 'base64');
                         file.writeFile(`./images/${url.name}.png`, buffer, 'base64', function (err) {
@@ -101,7 +101,7 @@ CDP(function (client) {
                 console.log(`Navigating to ${url.url}`);
                 yield Page.navigate({ url: url.url });
                 console.log('Starting to wait');
-                yield timeout(delay + 5000); // add 10 s for screenshot
+                yield timeout(timeoutDelay + 5000); // add 10 s for screenshot
                 console.log('Ended waiting');
             }
         }
@@ -114,7 +114,7 @@ CDP(function (client) {
             client.close();
         }
     });
-}).on('error', err => {
+}).on('error', (err) => {
     console.error('Cannot connect to browser:', err);
 });
 //# sourceMappingURL=capture.js.map

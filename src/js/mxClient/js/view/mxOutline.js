@@ -444,7 +444,7 @@ mxOutline.prototype.update = function(revalidate)
 				scaledGraphBounds.y / sourceScale + this.source.panDy, scaledGraphBounds.width / sourceScale,
 				scaledGraphBounds.height / sourceScale);
 
-		console.log( 'this.source', this.source);
+		//console.log( 'this.source', this.source);
 
 		if( this.source && this.source.container) {
 

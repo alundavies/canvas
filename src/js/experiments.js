@@ -24,7 +24,6 @@ class Experiments {
             });
         }
 
-
         // Changes fill color to red on mouseover
         window.editor.graph.addMouseListener(
         {
@@ -36,7 +35,6 @@ class Experiments {
             mouseMove: function (sender, me) {
             },
             mouseUp: function (sender, me) {
-
                 console.log( 'mouse up: ', me.graphX, me.graphY)
             },
             dragEnter: function (evt, state) {
@@ -92,7 +90,6 @@ class Experiments {
 
      slowVisit( model, cells, visitor, wait){
 
-
         model.beginUpdate();
         try {
             for( let cell of cells){
@@ -147,11 +144,11 @@ class Experiments {
 
         //let cell = this.model.getCell(4579) || this.model.getCell( 1771);
         let cell = this.model.getRoot();
-        let childCells = this.model.getChildCells( cell);
-        if( cell != null) {
-            console.log( childCells);
-            this.slowVisit( this.model, childCells,  cell => {
-                cell.run=false;
+        let childCells = this.model.getChildCells(cell);
+        if (cell != null) {
+            console.log(childCells);
+            this.slowVisit(this.model, childCells, cell => {
+                cell.run = false;
                 //this.model.setValue(cell, 'id: ' + cell.id);
                 let style = this.model.getStyle(cell);
                 style = this.buildStyleWithAttribute(style, 'fillColor', '#ffffff');
@@ -159,44 +156,32 @@ class Experiments {
                 return true; // continue visiting sub cells
             }, 0);
         }
+    }
 
+    colorGreen() {
         // kick this off with a run command perhaps
-        setTimeout( () => {
+        let cell = this.model.getRoot();
+        let childCells = this.model.getChildCells(cell);
 
-            this.slowVisit( this.model, childCells, cell => {
-                //this.model.setValue( cell, 'id: '+cell.id);
-                let incomingEdges = this.model.getIncomingEdges( cell);
-                for( let edge of incomingEdges) {
-                    // console.log( 'edge detail: ', cell.id, edge.source?edge.source.run:'no run');
-                    if( !edge.source || !edge.source.run){
-                        return false;
-                    }
+        this.slowVisit( this.model, childCells, cell => {
+            //this.model.setValue( cell, 'id: '+cell.id)
+            let incomingEdges = this.model.getIncomingEdges( cell);
+            for( let edge of incomingEdges) {
+                // console.log( 'edge detail: ', cell.id, edge.source?edge.source.run:'no run');
+                if( !edge.source || !edge.source.run){
+                    return false;
                 }
+            }
 
-                let style = this.model.getStyle( cell);
-                //this.model.setValue( cell, 'id: '+cell.id, ' time: ',+ new Date().getTime())
-                style = this.buildStyleWithAttribute( style, 'fillColor', '#00cc00');
-                this.model.setStyle( cell, style);
+            let style = this.model.getStyle( cell);
+            style = this.buildStyleWithAttribute( style, 'fillColor', '#00cc00');
+            this.model.setStyle( cell, style);
 
-                let value = this.model.getValue( cell);
-                //if( value && value.startsWith( 'function')){
-                //    console.log( value);
-                //};
+            let value = this.model.getValue( cell);
+            cell.run = true;
+            return true;
 
-                if( value=='JavaScript'){
-                    console.log( 'Javascript detected');
-                }
-                else if( value && value.trim && value.trim().startsWith( 'function') ) {
-                    console.log( 'Javascript function detected: ', cell);
-                    eval( value);
-                }
-                //console.log( value)
+        }, 750);
 
-                cell.run = true;
-
-                return true;
-
-            }, 750);
-        }, 1500);
     }
 }

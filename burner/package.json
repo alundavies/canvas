@@ -9,14 +9,15 @@
   "author": "Alun Davies",
   "license": "ISC",
   "dependencies": {
-    "@types/async": "^2.0.40",
-    "@types/gm": "^1.17.32",
-    "@types/lodash": "^4.14.71",
-    "async": "^2.5.0",
-    "async-file": "^2.0.2",
+    "async-file": "2.0.2",
     "decimal": "0.0.2",
+    "@types/async": "^2.0.40",
+    "async": "^2.5.0",
+    "@types/gm": "^1.17.32",
     "gm": "^1.23.0",
+    "@types/lodash": "^4.14.71",
     "lodash": "^4.17.4",
+    "@types/q": "^1.5.0",
     "q": "^1.5.0"
   }
 }

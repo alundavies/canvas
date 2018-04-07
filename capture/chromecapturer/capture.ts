@@ -20,11 +20,11 @@ const url = argv.url || 'http://news.bbc.co.uk';
 const format = argv.format === 'jpeg' ? 'jpeg' : 'png';
 const viewportWidth = argv.viewportWidth || 1440;
 const viewportHeight = argv.viewportHeight || 10000;
-const delay = 30000;
+const timeoutDelay = 30000;
 const userAgent = argv.userAgent || 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.82 Mobile Safari/537.36';  // really important to include userAgent for some sites (notably news.bbc.co.uk)
 const fullPage = true; //argv.full;
 
-async function timeout(ms) {
+async function timeout(ms:number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -91,12 +91,12 @@ CDP(async function(client) {
                      const config = {format: format, fromSurface: true};  // best results with fromSurface = true
                      console.log(JSON.stringify(config));
 
-                     await timeout( delay);
+                     await timeout( timeoutDelay);
 
                      const screenshot = await Page.captureScreenshot(config);
 
                      const buffer = new Buffer(screenshot.data, 'base64');
-                     file.writeFile(`./images/${url.name}.png`, buffer, 'base64', function (err) {
+                     file.writeFile(`./images/${url.name}.png`, buffer, 'base64', function (err:any) {
                          if (err) {
                             console.error(err);
                          } else {
@@ -116,7 +116,7 @@ CDP(async function(client) {
             console.log(`Navigating to ${url.url}`);
             await Page.navigate({url: url.url});
             console.log( 'Starting to wait');
-            await timeout( delay+5000);  // add 10 s for screenshot
+            await timeout( timeoutDelay+5000);  // add 10 s for screenshot
             console.log( 'Ended waiting');
         }
     }
@@ -131,6 +131,6 @@ CDP(async function(client) {
         client.close();
     }
 
-}).on('error', err => {
+}).on('error', (err: any) => {
     console.error('Cannot connect to browser:', err);
 });

@@ -48,18 +48,7 @@ zoomer.init();
             window.editor.graph.fit();
 
             // don't want failures here stopping graph from showing
-            setTimeout( function(){
 
-                let experiments = new Experiments();
-                experiments.walkATree();
-
-                // add map to geDiagramContainer
-                let diagramContainer = document.getElementsByClassName('geDiagramContainer')[0];
-                let mapDiv = document.getElementsByClassName('map')[0];
-
-                //diagramContainer.insertBefore( mapDiv, diagramContainer.firstChild);
-
-            }, 0);
         });
 
         socket.emit( 'request-drawing', {filename: 'main.xml'} );

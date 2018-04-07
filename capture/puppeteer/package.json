@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.72",
-    "puppeteer": "0.13.0"
+    "@types/lodash": "^4.14.106",
+    "@types/puppeteer": "1.2.0",
+    "puppeteer": "1.2.0"
   }
 }

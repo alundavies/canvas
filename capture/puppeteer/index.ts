@@ -1,15 +1,16 @@
-const puppeteer = require('puppeteer');
+
+import * as puppeteer from 'puppeteer';
 
 puppeteer.launch({
     ignoreHTTPSErrors: true,
     timeout: 20000
-}).then(async browser => {
+}).then(async (browser:any) => {
     console.log( 'Browser launched');
     const page = await browser.newPage();
     console.log( 'New Page created')
     try {
         let device = {
-            viewport {
+            viewport: {
                 width: 1000,
                 height: 1000,
                 deviceScaleFactor: 2

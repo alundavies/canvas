@@ -1760,43 +1760,44 @@ EditorUi.prototype.initCanvas = function()
 			window.clearTimeout(this.updateZoomTimeout);
 		}
 
-		// Switches to 1% zoom steps below 15%
-		// Lower bound depdends on rounding below
-		if (zoomIn)
-		{
-			if (this.view.scale * this.cumulativeZoomFactor < 0.15)
-			{
-				this.cumulativeZoomFactor = (this.view.scale + 0.1) / this.view.scale;
-			}
-			else
-			{
-				// Uses to 5% zoom steps for better grid rendering in webkit
-				// and to avoid rounding errors for zoom steps
-				this.cumulativeZoomFactor *= this.zoomFactor;
-				this.cumulativeZoomFactor = Math.round(this.view.scale * this.cumulativeZoomFactor * 20) / 20 / this.view.scale;
-			}
-		}
-		else
-		{
-			if (this.view.scale * this.cumulativeZoomFactor <= 0.15)
-			{
-				this.cumulativeZoomFactor = (this.view.scale - 0.1) / this.view.scale;
-			}
-			else
-			{
-				// Uses to 5% zoom steps for better grid rendering in webkit
-				// and to avoid rounding errors for zoom steps
-				this.cumulativeZoomFactor /= this.zoomFactor;
-				this.cumulativeZoomFactor = Math.round(this.view.scale * this.cumulativeZoomFactor * 20) / 20 / this.view.scale;
-			}
-			//console.log( `cumulativeZoomFactor=${this.cumulativeZoomFactor}  zoomFactor=${this.zoomFactor}`);
-		}
-		
-		this.cumulativeZoomFactor = Math.max(0.01, Math.min(this.view.scale * this.cumulativeZoomFactor, 160) / this.view.scale);
-		
+        // Switches to 1% zoom steps below 15%
+        // Lower bound depdends on rounding below
+        if (zoomIn)
+        {
+            // if (this.view.scale * this.cumulativeZoomFactor < 10.0 /*0.15*/)
+            // {
+            this.cumulativeZoomFactor = (this.view.scale + 0.1) / this.view.scale;
+            /* }
+             else
+             {
+             // Uses to 5% zoom steps for better grid rendering in webkit
+             // and to avoid rounding errors for zoom steps
+             this.cumulativeZoomFactor *= this.zoomFactor;
+             this.cumulativeZoomFactor = Math.round(this.view.scale * this.cumulativeZoomFactor * 20) / 20 / this.view.scale;
+             }*/
+        }
+        else
+        {
+            // if (this.view.scale * this.cumulativeZoomFactor <= 10.0 /*0.15*/)
+            // {
+            this.cumulativeZoomFactor = (this.view.scale - 0.1) / this.view.scale;
+            /*}
+             else
+             {
+             // Uses to 5% zoom steps for better grid rendering in webkit
+             // and to avoid rounding errors for zoom steps
+             this.cumulativeZoomFactor /= this.zoomFactor;
+             this.cumulativeZoomFactor = Math.round(this.view.scale * this.cumulativeZoomFactor * 20) / 20 / this.view.scale;
+             }*/
+            console.log( `cumulativeZoomFactor=${this.cumulativeZoomFactor}  zoomFactor=${this.zoomFactor}`);
+        }
+
 		this.updateZoomTimeout = window.setTimeout(mxUtils.bind(this, function()
 		{
-			this.zoom(this.cumulativeZoomFactor);					
+
+            //this.cumulativeZoomFactor = Math.max(0.1, Math.min(this.view.scale * this.cumulativeZoomFactor, 160) / this.view.scale);
+
+			this.zoom( this.cumulativeZoomFactor);
 			
 			if (resize != null)
 			{
@@ -1815,15 +1816,17 @@ EditorUi.prototype.initCanvas = function()
 			}
 			
 			this.cumulativeZoomFactor = 1;
-			this.updateZoomTimeout = null;
-		}), 10);  //al was 20
+			this.updateZoomTimeout = 10;
+		}), 20);
 	};
 	
 	mxEvent.addMouseWheelListener(mxUtils.bind(this, function(evt, up)
 	{
+	    console.log( 'mouse wheel');
 		// Ctrl+wheel (or pinch on touchpad) is a native browser zoom event is OS X
 		// LATER: Add support for zoom via pinch on trackpad for Chrome in OS X
-		if ( ( mxEvent.isAltDown(evt) || (mxEvent.isControlDown(evt) && !mxClient.IS_MAC) ||  graph.panningHandler.isActive()) &&
+		// todo: alun fix zoom
+		if ( ( mxEvent.isAltDown(evt) || (mxEvent.isControlDown(evt) && !mxClient.IS_MAC) ||  graph.panningHandler.isActive() ) &&
             (this.dialogs == null || this.dialogs.length == 0))
 		{
 			var source = mxEvent.getSource(evt);
@@ -1832,10 +1835,32 @@ EditorUi.prototype.initCanvas = function()
 			{
 				if (source == graph.container)
 				{
+				    var factor = graph.view.scale;
 					cursorPosition = new mxPoint(mxEvent.getClientX(evt), mxEvent.getClientY(evt));
-					graph.lazyZoom(up);
+
+                    if( up){
+                        var zoomInAction = this.actions.get('zoomIn');
+                        zoomInAction.funct();
+
+                        factor = graph.view.scale - factor;
+                    } else {
+                        var zoomOutAction = this.actions.get('zoomOut');
+                        zoomOutAction.funct();
+
+                        factor = factor - graph.view.scale;
+                    }
+
+                    if (cursorPosition != null && mxUtils.hasScrollbars(graph.container))
+                    {
+                        var offset = mxUtils.getOffset(graph.container);
+                        var dx = graph.container.offsetWidth / 2 - cursorPosition.x + offset.x;
+                        var dy = graph.container.offsetHeight / 2 - cursorPosition.y + offset.y;
+
+                        graph.container.scrollLeft -= dx * ( factor - 1);
+                        graph.container.scrollTop -= dy * ( factor - 1);
+                    }
 					mxEvent.consume(evt);
-			
+
 					return;
 				}
 				
