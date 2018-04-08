@@ -5,3 +5,4 @@ javascript/dist
 javascript/examples/**/dist
 capture/images/*.png
 ~$.xlsx
+**generated_images/

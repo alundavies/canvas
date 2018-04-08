@@ -1,12 +1,12 @@
 /**
  * Created by alundavies on 06/04/2018.
  */
-class TileRange {
-    level: number;
-    xTileStart: number;
-    yTileStart: number;
-    xTileEnd: number;
-    yTileEnd: number;
+export default class TileRange {
+    readonly level: number;
+    readonly xTileStart: number;
+    readonly yTileStart: number;
+    readonly xTileEnd: number;
+    readonly yTileEnd: number;
 
     constructor( level: number, xTileStart: number, yTileStart: number, xTileEnd: number, yTileEnd: number) {
         this.level=level;
@@ -16,11 +16,11 @@ class TileRange {
         this.yTileEnd = yTileEnd;
     }
 
-    width() {
+    get width() {
         return this.xTileEnd-this.xTileStart+1;
     }
 
-    height() {
+    get height() {
         return this.yTileEnd-this.yTileStart+1;
     }
 }

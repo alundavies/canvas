@@ -14,7 +14,7 @@ app.use( '/openseadragon/bbcsport_files', express.static('bbcsport_files'))
 app.use( '/openseadragon/bbcnews_files', express.static('bbcnews_files'))
 app.use( '/openseadragon/output_files', express.static('output_files'))*/
 app.use('/', express.static('src'));
-app.get('/openlayers/:z/:x/:y.png', function (req, res) {
+app.get('/openlayers/:layerName/:z/:x/:y.png', function (req, res) {
     //res.send( `${req.params['z']} ${req.params['x']} ${req.params['y']}`);
     // send a matching tile
     //var fileName = ""; //`${parseInt(req.params['z'])+7}/${req.params['x']}_${req.params['y']}.png`;
@@ -22,7 +22,8 @@ app.get('/openlayers/:z/:x/:y.png', function (req, res) {
     let Z = parseInt(req.params['z']);
     let X = parseInt(req.params['x']);
     let Y = parseInt(req.params['y']);
-    let fileName = path.join(__dirname, `../../../tiles/layers/bbc/zoom_${Z}_${X}_${Y}.png`);
+    let layerName = req.params['layerName'];
+    let fileName = path.join(__dirname, `../../../tiles/layers/${layerName}/${Z}_${X}_${Y}.png`);
     res.setHeader('Content-Type', 'image/png');
     res.sendFile(fileName);
     console.log(`${req.params['z']} ${req.params['x']} ${req.params['y']} -> ${fileName}`);

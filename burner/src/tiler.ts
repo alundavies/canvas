@@ -1,5 +1,6 @@
 /*
-    Tiler - creates tiles of a larger image
+    Tiler - creates tiles of a larger image - this actual code does this repeatedly to create many instances of the
+    same tiles for experimenting with open layers
 
 // pngcrush lots of files to compressed dir - 10% reduction
  find . -name "*.png" -print0 | xargs -0 -n 1 -P 4 pngcrush -d ../compressed -reduce

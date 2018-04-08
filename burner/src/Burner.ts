@@ -1,3 +1,5 @@
+import TileRange from "./TileRange";
+
 export interface Burner {
     readonly tileWidth : number;
     readonly tileHeight : number;

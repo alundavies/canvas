@@ -1,18 +1,24 @@
 import {Burner} from '../Burner';
-import {ImageSizeReader} from '../image-helpers/ImageSizeReader';
+import {ImageSizeReader} from '../image-io/ImageSizeReader';
+import {ImageWriter} from '../image-io/ImageWriter';
+import TileRange from '../TileRange';
 
-class SimpleBurner implements Burner {
+export default class SimpleBurner implements Burner {
 
     _tileWidth: number;
     _tileHeight: number;
     _layerName: string;
+    _outputDirectory: string;
     _imageSizeReader: ImageSizeReader;
+    _imageWriter: ImageWriter;
 
-    constructor(imageSizeReader: ImageSizeReader, layerName: string, tileWidth: number, tileHeight: number) {
+    constructor( imageSizeReader: ImageSizeReader, imageWriter: ImageWriter, outputDirectory: string, layerName: string, tileWidth: number, tileHeight: number) {
         this._tileWidth = tileWidth;
         this._tileHeight = tileHeight;
+        this._outputDirectory = outputDirectory;
         this._layerName = layerName;
         this._imageSizeReader = imageSizeReader;
+        this._imageWriter = imageWriter;
     }
 
     /**
@@ -39,22 +45,24 @@ class SimpleBurner implements Burner {
         // 2^level is the number of available tiles in that direction, x and y are simply percentage value along that
         let tileX = Math.trunc( x * (2 ** level));
         let tileY = Math.trunc( y * (2 ** level));
-
+console.log( `Will write to level: ${level}`)
         let tileRange:TileRange = await this.burnImageAtLevelXY( imagePath, level, tileX, tileY, 0, 0);
 
         return tileRange;
     }
 
-    async burnImageAtLevelXY( imagePath: string, level: number, tileX: number, tileY: number, tileOffsetX=0, tileOffset=0) : Promise<TileRange> {
+    async burnImageAtLevelXY( imagePath: string, level: number, tileX: number, tileY: number, tileXOffset=0, tileYOffset=0) : Promise<TileRange> {
 
         // let tileEndX = Math.trunc( (x+width) * (2 ** level));
         // let tileEndY = Math.trunc( (y+height) * (2 ** level));
 
-        let promise = new Promise<TileRange>( (resolve, reject) => {
-            resolve( new TileRange( 0, 0, 0, 0, 0));
-        });
-        return promise;
-
+        // we're going to start with the cheap mans burn approach, of just constructing tiles for this image without
+        // any concern for content on neighbouring tiles or overlapping
+        return await this._imageWriter.convertImageToTiles( imagePath, `${this._outputDirectory}/${this._layerName}`,
+            `${level}_`,   // here's the cheap n' nasty bit
+            tileX, tileY,
+            this._tileWidth, this._tileHeight,
+            tileXOffset, tileYOffset);
     }
 
     get tileWidth(){
