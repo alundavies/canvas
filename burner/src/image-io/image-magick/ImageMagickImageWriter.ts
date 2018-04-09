@@ -23,6 +23,7 @@ export default class ImageMagickImageWriter implements ImageWriter {
 
     async convertImageToTiles( imagePath: string, outputDirectory: string,
                                  outputFilePrefix: string,
+                                 layerNumber: number,
                                  tileX: number, tileY: number,
                                  tileWidth: number, tileHeight: number,
                                  tileXOffset=0, tileYOffset=0,
@@ -31,19 +32,19 @@ export default class ImageMagickImageWriter implements ImageWriter {
         await this.ensureOutputDirectoryExists( outputDirectory);
 
         return await this._imageMagickImageToTiles.tile( imagePath, outputDirectory, outputFilePrefix,
+                                        layerNumber,
                                         tileX, tileY, tileWidth, tileHeight, tileXOffset, tileYOffset,
                                         imageSize);
 
     }
 
-    async montageTileRangeToSingleTile( layerProperties: LayerProperties, tileRange: TileRange): Promise<TileRange> {
+    async montageTileRangeToSingleTile( layerProperties: LayerProperties, inputTileRange: TileRange, outputTileRange: TileRange): Promise<TileRange> {
         await this.ensureOutputDirectoryExists( layerProperties.directory);
-        return await this._imageMagickTileMontager.tileMontage( layerProperties, tileRange);
+        return await this._imageMagickTileMontager.tileMontage( layerProperties, inputTileRange, outputTileRange);
     }
 
     async ensureOutputDirectoryExists( outputDirectory: string) {
         let exists : boolean = await fs.exists( outputDirectory);
-        console.log( `${exists} - dir ${outputDirectory}`);
         if( !exists){
             await fs.mkdir( outputDirectory);
         }

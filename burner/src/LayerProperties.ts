@@ -8,6 +8,7 @@ export default class LayerProperties {
     readonly layerName : string;
     readonly tileSizeX : number;
     readonly tileSizeY : number;
+    readonly transparent : boolean;
 
     readonly directory : string;
     readonly filePrefix : string;
@@ -19,6 +20,7 @@ export default class LayerProperties {
 
     constructor( layerName: string, tileSizeX: number, tileSizeY: number,
                  directory: string, filePrefix?: string,
+                 transparent?: boolean,
                  parentLayer?: LayerProperties,
                  layerOffsetX?: number,
                  layerOffsetY?: number ) {
@@ -33,6 +35,8 @@ export default class LayerProperties {
         } else {
             this.filePrefix = '';
         }
+
+        this.transparent = isUndefined( transparent) ? true : transparent;
 
         if( !isUndefined( parentLayer)){
             this.parentLayer = parentLayer;

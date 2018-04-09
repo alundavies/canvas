@@ -45,9 +45,9 @@ export default class SimpleBurner implements Burner {
         // 2^level is the number of available tiles in that direction, x and y are simply percentage value along that
         let tileX = Math.trunc( x * (2 ** level));
         let tileY = Math.trunc( y * (2 ** level));
-console.log( `Will write to level: ${level}`)
+console.log( `Burning at level: ${level}`)
         let tileRange:TileRange = await this.burnImageAtLevelXY( imagePath, level, tileX, tileY, 0, 0);
-
+console.log( `Done burning at ${tileRange.toString()}`);
         return tileRange;
     }
 
@@ -58,11 +58,14 @@ console.log( `Will write to level: ${level}`)
 
         // we're going to start with the cheap mans burn approach, of just constructing tiles for this image without
         // any concern for content on neighbouring tiles or overlapping
-        return await this._imageWriter.convertImageToTiles( imagePath, `${this._outputDirectory}/${this._layerName}`,
+        let outputTileRange = await this._imageWriter.convertImageToTiles( imagePath, `${this._outputDirectory}/${this._layerName}`,
             `${level}_`,   // here's the cheap n' nasty bit
+            level,
             tileX, tileY,
             this._tileWidth, this._tileHeight,
             tileXOffset, tileYOffset);
+
+        return new TileRange( level, tileX, tileY, outputTileRange.xTileEnd, outputTileRange.yTileEnd);
     }
 
     get tileWidth(){

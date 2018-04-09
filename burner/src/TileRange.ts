@@ -16,6 +16,10 @@ export default class TileRange {
         this.yTileEnd = yTileEnd;
     }
 
+    toString() : string {
+        return `level: ${this.level}  x: ${this.xTileStart}  y: ${this.yTileStart}  x': ${this.xTileEnd}  y': ${this.yTileEnd}`;
+    }
+
     get width() {
         return this.xTileEnd-this.xTileStart+1;
     }

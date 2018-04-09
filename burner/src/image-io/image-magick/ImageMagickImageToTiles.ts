@@ -13,6 +13,7 @@ export default class ImageMagickImageToTiles {
 
     async tile( imagePath: string, outputDirectory: string,
                 outputFilePrefix: string,
+                layerNumber: number,
                 tileX: number, tileY:number,
                 tileWidth:number, tileHeight:number,
                 tileXOffset=0, tileYOffset=0,
@@ -37,7 +38,7 @@ export default class ImageMagickImageToTiles {
             (Math.trunc( imageSizeWithOffsets.height/tileHeight)+1) * (tileHeight) :
             imageSizeWithOffsets.height;
 
-console.log( `${fullHeight} x ${fullWidth} -> ${outputPath}`);
+console.log( `ImageMagickToTiles - ${fullHeight} x ${fullWidth} -> ${outputPath}`);
 
         let args = `-size ${fullWidth}x${fullHeight} xc:white ${imagePath} -geometry +${tileXOffset}+${tileYOffset} -composite -crop ${tileWidth}x${tileHeight} -set filename:tile %[fx:page.x/${tileWidth}+${tileX}]_%[fx:page.y/${tileHeight}+${tileY}] +repage +adjoin ${outputPath}`;
 
@@ -57,8 +58,8 @@ console.log( `${fullHeight} x ${fullWidth} -> ${outputPath}`);
             });
 
             ls.on('close', (code : any) => {
-                console.log(`child process exited with code ${code}`);
-                resolve( new TileRange( 0, 0, 0, 0, 0));
+//console.log(`Done converting to tiles - exit code: ${code} (zero is good)`);
+                resolve( new TileRange( layerNumber, tileX, tileY, fullWidth/tileWidth+tileX-1, fullHeight/tileHeight+tileY-1));
             });
 
         });
