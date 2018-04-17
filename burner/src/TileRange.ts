@@ -1,6 +1,8 @@
 /**
  * Created by alundavies on 06/04/2018.
  */
+import {isUndefined} from 'util';
+
 export default class TileRange {
     readonly level: number;
     readonly xTileStart: number;
@@ -8,12 +10,12 @@ export default class TileRange {
     readonly xTileEnd: number;
     readonly yTileEnd: number;
 
-    constructor( level: number, xTileStart: number, yTileStart: number, xTileEnd: number, yTileEnd: number) {
+    constructor( level: number, xTileStart: number, yTileStart: number, xTileEnd?: number, yTileEnd?: number) {
         this.level=level;
         this.xTileStart = xTileStart;
         this.yTileStart = yTileStart;
-        this.xTileEnd = xTileEnd;
-        this.yTileEnd = yTileEnd;
+        this.xTileEnd = !isUndefined( xTileEnd) ? xTileEnd : xTileStart;
+        this.yTileEnd = !isUndefined( yTileEnd) ? yTileEnd : yTileStart;
     }
 
     toString() : string {

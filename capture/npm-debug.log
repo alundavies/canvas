@@ -1,31 +1,19 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'install',
-1 verbose cli   '@types/lodash',
-1 verbose cli   '--save' ]
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/lib/node_modules/npm/bin/npm-cli.js',
+1 verbose cli   'install' ]
 2 info using npm@1.4.9
 3 info using node@v0.10.28
-4 warn package.json capturer@0.0.1 No repository field.
-5 warn package.json capturer@0.0.1 No README data
-6 warn package.json ultron@1.1.0 No README data
-7 warn package.json lighthouse-logger@1.0.0 No repository field.
-8 verbose readDependencies using package.json deps
-9 verbose cache add [ '@types/lodash', null ]
-10 verbose cache add name=undefined spec="@types/lodash" args=["@types/lodash",null]
-11 verbose parsed url { protocol: null,
-11 verbose parsed url   slashes: null,
-11 verbose parsed url   auth: null,
-11 verbose parsed url   host: null,
-11 verbose parsed url   port: null,
-11 verbose parsed url   hostname: null,
-11 verbose parsed url   hash: null,
-11 verbose parsed url   search: null,
-11 verbose parsed url   query: null,
-11 verbose parsed url   pathname: '@types/lodash',
-11 verbose parsed url   path: '@types/lodash',
-11 verbose parsed url   href: '@types/lodash' }
-12 verbose cache add name="" spec="types/lodash" args=["","types/lodash"]
+4 warn package.json capture@1.0.0 No description
+5 warn package.json capture@1.0.0 No repository field.
+6 warn package.json capture@1.0.0 No README data
+7 verbose readDependencies using package.json deps
+8 verbose install where, deps [ '/Users/alundavies/git/canvas/capture',
+8 verbose install   [ '@types/promise-queue', 'promise-queue' ] ]
+9 info preinstall capture@1.0.0
+10 verbose readDependencies using package.json deps
+11 verbose cache add [ '@types/promise-queue@2.2.0', null ]
+12 verbose cache add name=undefined spec="@types/promise-queue@2.2.0" args=["@types/promise-queue@2.2.0",null]
 13 verbose parsed url { protocol: null,
 13 verbose parsed url   slashes: null,
 13 verbose parsed url   auth: null,
@@ -35,48 +23,126 @@
 13 verbose parsed url   hash: null,
 13 verbose parsed url   search: null,
 13 verbose parsed url   query: null,
-13 verbose parsed url   pathname: 'types/lodash',
-13 verbose parsed url   path: 'types/lodash',
-13 verbose parsed url   href: 'types/lodash' }
-14 silly lockFile f50bac5a-types-lodash types/lodash
-15 verbose lock types/lodash /Users/alundavies/.npm/f50bac5a-types-lodash.lock
-16 info maybeGithub Attempting types/lodash from git://github.com/types/lodash
-17 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
-18 verbose lock git://github.com/types/lodash /Users/alundavies/.npm/0198a6bf-git-github-com-types-lodash.lock
-19 verbose addRemoteGit [ 'git://github.com/types/lodash', 'master' ]
-20 verbose git clone git://github.com/types/lodash Cloning into bare repository '/Users/alundavies/.npm/_git-remotes/git-github-com-types-lodash-0198a6bf'...
-20 verbose git clone git://github.com/types/lodash
-20 verbose git clone git://github.com/types/lodash fatal: remote error:
-20 verbose git clone git://github.com/types/lodash   Repository not found.
-21 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
-22 silly lockFile 0198a6bf-git-github-com-types-lodash git://github.com/types/lodash
-23 info maybeGithub Attempting types/lodash from git+ssh://git@github.com:types/lodash
-24 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
-25 verbose lock git@github.com:types/lodash /Users/alundavies/.npm/9eb5372a-git-github-com-types-lodash.lock
-26 verbose addRemoteGit [ 'git@github.com:types/lodash', 'master' ]
-27 error git clone git@github.com:types/lodash Cloning into bare repository '/Users/alundavies/.npm/_git-remotes/git-github-com-types-lodash-9eb5372a'...
-27 error git clone git@github.com:types/lodash
-27 error git clone git@github.com:types/lodash Warning: Permanently added the RSA host key for IP address '192.30.253.112' to the list of known hosts.
-27 error git clone git@github.com:types/lodash Permission denied (publickey).
-27 error git clone git@github.com:types/lodash fatal: Could not read from remote repository.
-27 error git clone git@github.com:types/lodash
-27 error git clone git@github.com:types/lodash Please make sure you have the correct access rights
-27 error git clone git@github.com:types/lodash and the repository exists.
-28 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
-29 silly lockFile 9eb5372a-git-github-com-types-lodash git@github.com:types/lodash
-30 silly lockFile f50bac5a-types-lodash types/lodash
-31 silly lockFile f50bac5a-types-lodash types/lodash
-32 error addLocal Could not install types/lodash
-33 error Error: ENOENT, stat 'types/lodash'
-34 error If you need help, you may report this *entire* log,
-34 error including the npm and node versions, at:
-34 error     <http://github.com/npm/npm/issues>
-35 error System Darwin 16.6.0
-36 error command "node" "/usr/local/bin/npm" "install" "@types/lodash" "--save"
-37 error cwd /Users/alundavies/git/canvas/capture
-38 error node -v v0.10.28
-39 error npm -v 1.4.9
-40 error path types/lodash
-41 error code ENOENT
-42 error errno 34
-43 verbose exit [ 34, true ]
+13 verbose parsed url   pathname: '@types/promise-queue@2.2.0',
+13 verbose parsed url   path: '@types/promise-queue@2.2.0',
+13 verbose parsed url   href: '@types/promise-queue@2.2.0' }
+14 verbose cache add [ 'promise-queue@2.2.5', null ]
+15 verbose cache add name=undefined spec="promise-queue@2.2.5" args=["promise-queue@2.2.5",null]
+16 verbose parsed url { protocol: null,
+16 verbose parsed url   slashes: null,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: null,
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: null,
+16 verbose parsed url   hash: null,
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: 'promise-queue@2.2.5',
+16 verbose parsed url   path: 'promise-queue@2.2.5',
+16 verbose parsed url   href: 'promise-queue@2.2.5' }
+17 verbose cache add name="promise-queue" spec="2.2.5" args=["promise-queue","2.2.5"]
+18 verbose parsed url { protocol: null,
+18 verbose parsed url   slashes: null,
+18 verbose parsed url   auth: null,
+18 verbose parsed url   host: null,
+18 verbose parsed url   port: null,
+18 verbose parsed url   hostname: null,
+18 verbose parsed url   hash: null,
+18 verbose parsed url   search: null,
+18 verbose parsed url   query: null,
+18 verbose parsed url   pathname: '2.2.5',
+18 verbose parsed url   path: '2.2.5',
+18 verbose parsed url   href: '2.2.5' }
+19 verbose addNamed [ 'promise-queue', '2.2.5' ]
+20 verbose addNamed [ '2.2.5', '2.2.5' ]
+21 verbose cache add name="" spec="types/promise-queue@2.2.0" args=["","types/promise-queue@2.2.0"]
+22 verbose parsed url { protocol: null,
+22 verbose parsed url   slashes: null,
+22 verbose parsed url   auth: null,
+22 verbose parsed url   host: null,
+22 verbose parsed url   port: null,
+22 verbose parsed url   hostname: null,
+22 verbose parsed url   hash: null,
+22 verbose parsed url   search: null,
+22 verbose parsed url   query: null,
+22 verbose parsed url   pathname: 'types/promise-queue@2.2.0',
+22 verbose parsed url   path: 'types/promise-queue@2.2.0',
+22 verbose parsed url   href: 'types/promise-queue@2.2.0' }
+23 silly lockFile 00cc0a15-promise-queue-2-2-5 promise-queue@2.2.5
+24 verbose lock promise-queue@2.2.5 /Users/alundavies/.npm/00cc0a15-promise-queue-2-2-5.lock
+25 verbose cache add name="types/promise-queue" spec="2.2.0" args=["types/promise-queue","2.2.0"]
+26 verbose parsed url { protocol: null,
+26 verbose parsed url   slashes: null,
+26 verbose parsed url   auth: null,
+26 verbose parsed url   host: null,
+26 verbose parsed url   port: null,
+26 verbose parsed url   hostname: null,
+26 verbose parsed url   hash: null,
+26 verbose parsed url   search: null,
+26 verbose parsed url   query: null,
+26 verbose parsed url   pathname: '2.2.0',
+26 verbose parsed url   path: '2.2.0',
+26 verbose parsed url   href: '2.2.0' }
+27 verbose addNamed [ 'types/promise-queue', '2.2.0' ]
+28 verbose addNamed [ '2.2.0', '2.2.0' ]
+29 silly lockFile 085f934c-types-promise-queue-2-2-0 types/promise-queue@2.2.0
+30 verbose lock types/promise-queue@2.2.0 /Users/alundavies/.npm/085f934c-types-promise-queue-2-2-0.lock
+31 verbose url raw promise-queue
+32 verbose url resolving [ 'https://registry.npmjs.org/', './promise-queue' ]
+33 verbose url resolved https://registry.npmjs.org/promise-queue
+34 info trying registry request attempt 1 at 11:16:33
+35 verbose etag "5a6e4c63-486d"
+36 http GET https://registry.npmjs.org/promise-queue
+37 verbose url raw types/promise-queue
+38 verbose url resolving [ 'https://registry.npmjs.org/', './types/promise-queue' ]
+39 verbose url resolved https://registry.npmjs.org/types/promise-queue
+40 info trying registry request attempt 1 at 11:16:33
+41 http GET https://registry.npmjs.org/types/promise-queue
+42 http 304 https://registry.npmjs.org/promise-queue
+43 silly registry.get cb [ 304,
+43 silly registry.get   { date: 'Tue, 17 Apr 2018 03:16:33 GMT',
+43 silly registry.get     via: '1.1 varnish',
+43 silly registry.get     'cache-control': 'max-age=300',
+43 silly registry.get     etag: '"5a6e4c63-486d"',
+43 silly registry.get     age: '4115',
+43 silly registry.get     connection: 'keep-alive',
+43 silly registry.get     'x-served-by': 'cache-hkg17931-HKG',
+43 silly registry.get     'x-cache': 'HIT',
+43 silly registry.get     'x-cache-hits': '1',
+43 silly registry.get     'x-timer': 'S1523934993.372693,VS0,VE0',
+43 silly registry.get     vary: 'Accept-Encoding, Accept' } ]
+44 verbose etag promise-queue from cache
+45 silly lockFile 00cc0a15-promise-queue-2-2-5 promise-queue@2.2.5
+46 silly lockFile 00cc0a15-promise-queue-2-2-5 promise-queue@2.2.5
+47 http 404 https://registry.npmjs.org/types/promise-queue
+48 silly registry.get cb [ 404,
+48 silly registry.get   { 'content-type': 'application/json',
+48 silly registry.get     'cache-control': 'max-age=0',
+48 silly registry.get     'content-length': '2',
+48 silly registry.get     'accept-ranges': 'bytes',
+48 silly registry.get     date: 'Tue, 17 Apr 2018 03:16:34 GMT',
+48 silly registry.get     via: '1.1 varnish',
+48 silly registry.get     age: '0',
+48 silly registry.get     connection: 'keep-alive',
+48 silly registry.get     'x-served-by': 'cache-hkg17920-HKG',
+48 silly registry.get     'x-cache': 'MISS',
+48 silly registry.get     'x-cache-hits': '0',
+48 silly registry.get     'x-timer': 'S1523934993.372367,VS0,VE1037',
+48 silly registry.get     vary: 'Accept-Encoding' } ]
+49 silly lockFile 085f934c-types-promise-queue-2-2-0 types/promise-queue@2.2.0
+50 silly lockFile 085f934c-types-promise-queue-2-2-0 types/promise-queue@2.2.0
+51 error 404 Not Found
+51 error 404
+51 error 404 'types/promise-queue' is not in the npm registry.
+51 error 404 You should bug the author to publish it
+51 error 404 It was specified as a dependency of 'capture'
+51 error 404
+51 error 404 Note that you can also install from a
+51 error 404 tarball, folder, or http url, or git url.
+52 error System Darwin 17.5.0
+53 error command "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/bin/npm-cli.js" "install"
+54 error cwd /Users/alundavies/git/canvas/capture
+55 error node -v v0.10.28
+56 error npm -v 1.4.9
+57 error code E404
+58 verbose exit [ 1, true ]

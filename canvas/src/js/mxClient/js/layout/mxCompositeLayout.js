@@ -68,11 +68,11 @@ mxCompositeLayout.prototype.moveCell = function(cell, x, y)
 {
 	if (this.master != null)
 	{
-		this.master.move.apply(this.master, arguments);
+		this.master.copy.apply(this.master, arguments);
 	}
 	else
 	{
-		this.layouts[0].move.apply(this.layouts[0], arguments);
+		this.layouts[0].copy.apply(this.layouts[0], arguments);
 	}
 };
 

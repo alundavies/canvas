@@ -3,7 +3,9 @@
  */
 import {FileCommand} from "../FileCommand";
 
-export default class MoveFile implements FileCommand {
+export default class CopyFile implements FileCommand {
+
+    static readonly command = 'cp';
 
     execute(commandParams: any) : boolean {
 

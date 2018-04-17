@@ -1,9 +1,11 @@
 
 import * as puppeteer from 'puppeteer';
+import * as as from 'async-file';
 
 puppeteer.launch({
     ignoreHTTPSErrors: true,
-    timeout: 20000
+    timeout: 5000,
+
 }).then(async (browser:any) => {
     console.log( 'Browser launched');
     const page = await browser.newPage();
@@ -20,11 +22,15 @@ puppeteer.launch({
 
         await page.emulate( device);
         console.log( 'Emulation succeeded');
-        await page.goto('http://www.mirror.co.uk/sport/formula-1/michael-schumacher-ski-accident-10360005',{
+        await page.goto(
+            //'file:///Users/alundavies/shadows/canvas/Users/alundavies/git/canvas/burner/src/layer-management/TileFileCopier.ts.html',
+            'file:///Users/alundavies/shadows/canvas/Users/alundavies/git/canvas/file-commands/CommandParams.ts.html',
+            {
 
             waitUntil: 'domcontentloaded' //'networkidle0' // 'networkidle2'  //'load'
         });
         console.log( 'Grabbing screenshot')
+        await as.unlink( 'screenshot.png');
         await page.screenshot({path: 'screenshot.png', fullPage:true});
     } catch( e){
         console.error( 'Caught error: ', e);

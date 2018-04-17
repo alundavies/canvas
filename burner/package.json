@@ -12,6 +12,8 @@
   "dependencies": {
     "async-file": "2.0.2",
     "decimal": "0.0.2",
+    "@types/glob": "5.0.35",
+    "glob": "7.1.2",
     "@types/async": "2.0.48",
     "async": "2.6.0",
     "@types/gm": "1.17.33",
