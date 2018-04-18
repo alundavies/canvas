@@ -41,10 +41,10 @@ console.log( `Tiling from level = ${inputTileRange.level} down to level = ${zSto
                 for( let y=0; y<sourceTileRange.height; y+=1){
 
                     // Calculate destination into which the output of 4 upper tiles should go
-                    let subTileStartX = (sourceTileRange.xTileStart>>1)+x; // divide by 2
-                    let subTileEndX = subTileStartX+1;
-                    let subTileStartY = (sourceTileRange.yTileStart>>1)+y;
-                    let subTileEndY = subTileStartY+1;
+                    let subTileStartX = (sourceTileRange.xTileStart+x)>>1; // divide by 2
+                    let subTileEndX = (sourceTileRange.xTileEnd+x)>>1;
+                    let subTileStartY = (sourceTileRange.yTileStart+y)>>1;
+                    let subTileEndY = (sourceTileRange.yTileEnd+y)>>1;
                     let destinationTileRange = new TileRange( z-1, subTileStartX, subTileStartY, subTileEndX, subTileEndY );
 
 

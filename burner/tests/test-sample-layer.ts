@@ -14,12 +14,12 @@ import SimpleDownTiler from "../src/down-tilers/SimpleDownTiler";
 import LayerProperties from "../src/LayerProperties";
 import TileRange from "../src/TileRange";
 import {isUndefined} from "util";
-import * as rimraf from 'rimraf';
+import {rimraf} from "../../burner/node_modules/async-file";
 
 async function run(){
 
     // clear 'sample' layer directory first
-    rimraf.sync( '/Users/alundavies/tiles/layers/sample');
+    await rimraf( '/Users/alundavies/tiles/layers/sample');
 
     let imageList : string[] = [
         '/Users/alundavies/Desktop/galaxy.jpg',

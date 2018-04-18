@@ -8,9 +8,12 @@ async function run(){
     let files : string[] = await fileCollector.collect( "**/*.ts", {ignore: ["**/node_modules/**"]});
     let htmlRenderer = new HtmlRenderer( "/Users/alundavies/shadows/canvas");
 
+    let promises : Promise<void>[] = []
     for( let file of files) {
-        await htmlRenderer.render( file);
+        promises.push( htmlRenderer.render( file));
     }
+
+    await Promise.all( promises);
 
     console.log('complete');
 };

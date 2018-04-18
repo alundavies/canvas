@@ -1,13 +1,24 @@
 import TileRange from '../../TileRange';
 import LayerProperties from "../../LayerProperties";
 import * as fs from 'async-file';
+import * as path from "path";
 
 export default class ImageMagickTileMontager {
 
     im : any;
+    private readonly blankImagePath:string;
+
 
     constructor( im: any) {
         this.im = im;
+
+        //this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-labelled-256x256.png');
+        //this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-transparent-1x1.png');
+        this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-black-256x256.png');
+
+        if( !fs.exists( this.blankImagePath)){
+            throw `Not happening - can't find blank image at '${this.blankImagePath}'`;
+        }
     }
 
     async tileMontage( layerProperties: LayerProperties, inputTileRange: TileRange, outputTileRange: TileRange) : Promise<TileRange> {
@@ -45,7 +56,8 @@ export default class ImageMagickTileMontager {
             console.log( `Montage output ${outputFileName}`);
 
             if (await fs.exists(outputFileName)) {
-                await fs.delete(outputFileName);
+                console.log( `Deleting ${outputFileName}`)
+               await fs.delete(outputFileName);
             }
 
             if( anyExist) {
@@ -78,7 +90,7 @@ export default class ImageMagickTileMontager {
             let exists = await fs.exists( fileNames[filenameIdx]);
             if( !exists){
                 //console.log( filenames[filenameIdx], 'does not exist');
-                fileNames[filenameIdx]='../assets/images/blank-labelled-256x256.png';
+                fileNames[filenameIdx]=this.blankImagePath;
                 count+=1;
             }
         }
