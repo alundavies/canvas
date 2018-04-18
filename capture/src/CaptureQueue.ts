@@ -1,19 +1,23 @@
 import * as Queue from 'promise-queue';
+import ChromePuppeteerCapturer from "./capturers/chrome-puppeteer/ChromePuppeteerCapturer";
+import {Capturer} from "./capturers/Capturer";
+
+
 
 export default class CaptureQueue {
 
     queue : Queue = new Queue( 5, Infinity);
-    itemCount : number = 0;
+    chromePuppeteerCapturer : Capturer = new ChromePuppeteerCapturer();
 
     async capture( url : string, options? : any) : Promise<string> {
 
         return new Promise<string>( (resolve, reject) => {
             this.queue.add( () => {
                 return new Promise( async (queuedResolve, queuedReject) => {
-                    this.itemCount++;
+
                     console.log( `Processing item ${url}`);
 
-                    await capture
+                    await this.chromePuppeteerCapturer.capture( url, options);
                     queuedResolve()
                 }).then( function(){
                     resolve( url);

@@ -21,7 +21,36 @@
         .map{
             width: 100%;
             height: 100vh;
-            posistion: relative;
+            qposition: relative;
+        }
+
+        .ol-control button {
+            background-color: rgba( 30, 30, 30, 0.3);
+        }
+
+        .ol-control button:focus, .ol-control button:hover {
+            text-decoration: none;
+            background-color: rgba( 60, 60, 60, 0.7);
+            outline: none !important;
+        }
+
+        .ol-control {
+            position: absolute;
+            background-color: rgba(255,255,255,.2);
+            border-radius: 2px;
+            padding: 1px;
+        }
+
+        .ol-control:hover {
+            background-color: rgba(255,255,255,.2);
+        }
+
+        .ol-control:focus{
+            background-color: rgba(255,255,255,.2);
+            outline: none !important;
+        }
+        .ol-control:active{
+            background-color: rgba(255,255,255,.2);
         }
     </style>
 </head>
@@ -110,8 +139,8 @@
         loadTilesWhileAnimating: true,   // careful of performance on some devices
         loadTilesWhileInteracting: true, // careful of performance on some devices
         layers: layers,
-        controls: ol.control.defaults().extend([
-            new ol.control.FullScreen()
+        controls: ol.control.defaults( {attribution:false}).extend([
+            //new ol.control.FullScreen()
         ]),
         view: view
     });
