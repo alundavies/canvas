@@ -7,3 +7,4 @@ capture/images/*.png
 ~$.xlsx
 **generated_images/
 **/build
+**/*.js.map
