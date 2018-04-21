@@ -22,6 +22,7 @@ export default class HtmlRenderer implements Renderer{
 
         let newContents= this.templates[ extension].replace( /__FILE_NAME__/g, target.substring( target.lastIndexOf("/")+1, target.length))
         let targetFileContents = await as.readTextFile( target);
+        targetFileContents = targetFileContents.trim();
         newContents = newContents.replace( /__FILE_CONTENTS__/g, targetFileContents);
         let targetDir = target.substring( 0, target.lastIndexOf("/"));
         await Files.ensureOutputDirectoryExists( `${this.outputDirectory}/${targetDir}`);

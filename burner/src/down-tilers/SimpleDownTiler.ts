@@ -37,6 +37,9 @@ console.log( `Tiling from level = ${inputTileRange.level} down to level = ${zSto
 
             console.log( ` sourceTileRange (adjusted) = ${sourceTileRange.toString()}   zoomFactor = ${zoomFactor}`);
 
+            let destinations = [];
+            let destinationTargets : Boolean[]= [];
+
             for( let x=0; x<sourceTileRange.width; x+=1){
                 for( let y=0; y<sourceTileRange.height; y+=1){
 
@@ -47,16 +50,25 @@ console.log( `Tiling from level = ${inputTileRange.level} down to level = ${zSto
                     let subTileEndY = (sourceTileRange.yTileEnd+y)>>1;
                     let destinationTileRange = new TileRange( z-1, subTileStartX, subTileStartY, subTileEndX, subTileEndY );
 
-
 console.log( `\nDown Tiler requesting montage for montage tile range`);
 console.log( ` sourceTileRange      = ${sourceTileRange}`);
 console.log( ` destinationTileRange = ${destinationTileRange.toString()}`);
 
-                    await this._imageWriter.montageTileRangeToSingleTile( layerProperties, sourceTileRange, destinationTileRange);
+                    let destinationKey : any = `${subTileStartX}_${subTileStartY}_${subTileEndX}_${subTileEndY}`;
+                    if( destinationTargets[ destinationKey]){
+                        // Not adding
+                    }
+                    else{
+                        destinationTargets[destinationKey] = true;
+                        destinations.push( this._imageWriter.montageTileRangeToSingleTile( layerProperties, destinationTileRange));
+                    }
+
 
                     //await new Promise( (resolve) => { setTimeout( function(){ resolve()}, 2000);});
                 }
             }
+
+            await Promise.all( destinations);
         }
         return inputTileRange;
     }

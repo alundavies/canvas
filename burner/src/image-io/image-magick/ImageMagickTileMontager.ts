@@ -21,33 +21,32 @@ export default class ImageMagickTileMontager {
         }
     }
 
-    async tileMontage( layerProperties: LayerProperties, inputTileRange: TileRange, outputTileRange: TileRange) : Promise<TileRange> {
+    async tileMontage( layerProperties: LayerProperties, outputTileRange: TileRange) : Promise<TileRange> {
 
-        if( inputTileRange.level==0){
+        if( outputTileRange.level<0){
             throw 'Cannot tile down lower than zero';
         }
 
-        await this.montage( layerProperties, inputTileRange, outputTileRange);
+        await this.montage( layerProperties, outputTileRange);
 
         return outputTileRange;
     }
 
 
-    async montage ( layerProperties: LayerProperties,
-                    inputTileRange: TileRange, outputTileRange: TileRange ) : Promise<TileRange>  {
+    async montage ( layerProperties: LayerProperties, outputTileRange: TileRange ) : Promise<TileRange>  {
 
         let promise = new Promise<TileRange>( async ( resolve, reject)=>{
 
             let filePathAndPrefix = `${layerProperties.directory}/${layerProperties.layerName}/${layerProperties.filePrefix}`;
 
             let inFileNames = [
-                `${filePathAndPrefix}${inputTileRange.level}_${outputTileRange.xTileStart*2}_${outputTileRange.yTileStart*2}.png`,
-                `${filePathAndPrefix}${inputTileRange.level}_${outputTileRange.xTileStart*2+1}_${outputTileRange.yTileStart*2}.png`,
-                `${filePathAndPrefix}${inputTileRange.level}_${outputTileRange.xTileStart*2}_${outputTileRange.yTileStart*2+1}.png`,
-                `${filePathAndPrefix}${inputTileRange.level}_${outputTileRange.xTileStart*2+1}_${outputTileRange.yTileStart*2+1}.png`
+                `${filePathAndPrefix}${outputTileRange.level+1}_${outputTileRange.xTileStart*2}_${outputTileRange.yTileStart*2}.png`,
+                `${filePathAndPrefix}${outputTileRange.level+1}_${outputTileRange.xTileStart*2+1}_${outputTileRange.yTileStart*2}.png`,
+                `${filePathAndPrefix}${outputTileRange.level+1}_${outputTileRange.xTileStart*2}_${outputTileRange.yTileStart*2+1}.png`,
+                `${filePathAndPrefix}${outputTileRange.level+1}_${outputTileRange.xTileStart*2+1}_${outputTileRange.yTileStart*2+1}.png`
             ];
 
-            console.log( inFileNames);
+           // console.log( inFileNames);
 
             let anyExist : boolean = await this.updateFileNamesIfNotExisting( inFileNames);
 
@@ -57,7 +56,7 @@ export default class ImageMagickTileMontager {
 
             if (await fs.exists(outputFileName)) {
                 console.log( `Deleting ${outputFileName}`)
-               await fs.delete(outputFileName);
+                await fs.delete(outputFileName);
             }
 
             if( anyExist) {

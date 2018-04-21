@@ -5,6 +5,7 @@ import {Capturer} from "../Capturer";
 import Captured from "../Captured";
 import * as as from 'async-file';
 import * as Puppeteer from "puppeteer";
+import {JSHandle} from "puppeteer";
 
 export default class ChromePuppeteerCapturer implements Capturer {
 
@@ -22,8 +23,8 @@ export default class ChromePuppeteerCapturer implements Capturer {
         try {
             let device = {
                 viewport: {
-                    width: 1000,
-                    height: 1000,
+                    width: 800,
+                    height: 256,
                     deviceScaleFactor: 2
                 },
                 userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.40 Safari/537.36'
@@ -37,14 +38,30 @@ export default class ChromePuppeteerCapturer implements Capturer {
                 url,
                 {
                     waitUntil: 'domcontentloaded' //'networkidle0' // 'networkidle2'  //'load'
+                    //waitUntil: 'load'
+                    //waitUntil: 'networkidle0'
                 }
             );
+
+            //await page.
 
             console.log( `Grabbing screenshot and writing to ${url}`);
             if( await as.exists( options.filePath)) {
                 await as.unlink(options.filePath);
             }
-            await page.screenshot({path:options.filePath, fullPage:true});
+
+            //await new Promise( resolve => { setTimeout( resolve, 3000)});
+
+            //let bodyHandle = await page.$('.CodeMirror-sizer');
+
+           // if( bodyHandle) {
+                const screenshot = await page.screenshot({
+                    path: options.filePath,
+                    fullPage: true,
+                    type: 'png'
+                });
+            //}
+
         } catch( e){
             console.error( 'Caught error: ', e);
         } finally {

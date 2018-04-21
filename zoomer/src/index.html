@@ -130,7 +130,11 @@
 
         view.fit([0, 0, mapEdge, mapEdge]);
 
-        layers.push(new ol.layer.Tile({source: bigSpaceSource, extent: projectionExtent}));
+        layers.push(new ol.layer.Tile({
+            source: bigSpaceSource,
+            extent: projectionExtent,
+            useInterimTilesOnError : true
+        }));
 
         /***** Build debug layer - what if more than one layer, one per layer???****/
         if (queryParams["debug"] == "true") {
@@ -160,9 +164,92 @@
         view: view
     });
 
-    map.on('click', function(e) {
-        console.log(e.coordinate);
+
+
+ /*   map.on( 'movestart', e=> {
+       console.log( `movestart:`);
+       console.log( e);
+    });*/
+    map.on( 'moveend', e=> {
+        console.log( `moveend:`);
+        console.log( e);
+        console.log( e.frameState.extent)
+
+        // extent = [x, y, x', y']
+        // for our map of 0..1
+        // x = percentage along from origin 0
+        // x' = percentage along from origin 0
+        // i.e. (x,y) (x',y') are our co-ordinates, all 0..1 (but x' seems just a little off)
+
+        console.log( e.frameState.focus)
+        // 2 points
+        // x going from 0 to 1 on our map of  0..1 (left to right)
+        // y going from 0 to 1 on our map of 0..1 (bottom to top)
+
+        // when adding an editor use and iframe and scale the iframe not the content of the iframe
     });
+  /*  map.on( 'postrender', e=>{
+        console.log( `postrender:`);
+        console.log( e);
+    });*/
+
+  // create a floating iframe for activating a doc
+    let activeDocIFrame = document.createElement( 'iframe');
+    activeDocIFrame.src='/shadows/canvas/Users/alundavies/git/canvas/burner/scripts/tile-file-copier.ts.html';
+    activeDocIFrame.style.display = 'none';
+    activeDocIFrame.style.width='1000px';
+    activeDocIFrame.style.height='1000px';
+    activeDocIFrame.style.transform='scale(0.5)';
+    activeDocIFrame.style.transformOrigin='top left';
+    activeDocIFrame.style.top=0;
+    activeDocIFrame.style.left=0;
+    activeDocIFrame.style.position='absolute';
+    document.body.appendChild( activeDocIFrame);
+
+    map.on('click', function(e) {
+        console.log( 'click:')
+        console.log( e);
+        if( e.coordinate[0]>0.875 && e.coordinate[0]<1.0 &&
+            e.coordinate[1]>0.875 && e.coordinate[1]<1 ) {
+            activeDocIFrame.style.display = 'block';
+        } else {
+            activeDocIFrame.style.display = 'none';
+        }
+        //console.log(e.coordinate);
+
+    });
+
+    map.on( 'movestart', e=> {
+        activeDocIFrameState = activeDocIFrame.style.display;
+        activeDocIFrame.style.display = 'none';
+    })
+
+    map.on( 'moveend', e => {
+        // 0.875 is our x co-ordinate of where thumbnail appears
+        let x=0.875;
+        let y=0.125;
+        y=0;
+
+        let extent = e.frameState.extent;
+        let size = e.frameState.size;
+
+        let newLeft = (((x-extent[0])/(extent[2]-extent[0]))*size[0])+'px';
+
+        let newTop = size[1]*(1-((1-y-extent[1])/(extent[3]-extent[1])))+'px';
+
+        let docWidth = 0.8*0.125;
+        let newScale = docWidth/(extent[2]-extent[0])*(1000/size[0]);
+        console.log( `***** Will update activeDocIFrame.style.left to ${newLeft} --- x=${x}  extent[0]=${e.frameState.extent[0]} extent[2]=${e.frameState.extent[2]} size=${e.frameState.size[0]}  newScale=${newScale}`)
+        //console.log( `***** Will update activeDocIFrame.style.top to ${newTop} --- y=${y}  extent[1]=${e.frameState.extent[1]} extent[3]=${e.frameState.extent[3]} size=${e.frameState.size[1]}`)
+        activeDocIFrame.style.left = newLeft;
+        activeDocIFrame.style.top = newTop;
+        activeDocIFrame.style.transform=`scale(${newScale})`;
+
+        // restore state to same as before move
+        activeDocIFrame.style.display = activeDocIFrameState;
+
+    });
+
 
 </script>
 </body>

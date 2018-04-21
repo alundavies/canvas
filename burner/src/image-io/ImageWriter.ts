@@ -14,6 +14,6 @@ export interface ImageWriter {
                          tileXOffset?:number, tileYOffset?:number,
                          imageSize?: ImageSizeProperties) : Promise<TileRange>;
 
-    montageTileRangeToSingleTile( layerProperties: LayerProperties, sourceTileRange: TileRange, destinationTileRange: TileRange) : Promise<TileRange>;
+    montageTileRangeToSingleTile( layerProperties: LayerProperties, destinationTileRange: TileRange) : Promise<TileRange>;
 
 }

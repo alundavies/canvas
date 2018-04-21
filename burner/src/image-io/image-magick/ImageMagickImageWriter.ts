@@ -38,9 +38,9 @@ export default class ImageMagickImageWriter implements ImageWriter {
 
     }
 
-    async montageTileRangeToSingleTile( layerProperties: LayerProperties, inputTileRange: TileRange, outputTileRange: TileRange): Promise<TileRange> {
+    async montageTileRangeToSingleTile( layerProperties: LayerProperties, outputTileRange: TileRange): Promise<TileRange> {
         await this.ensureOutputDirectoryExists( layerProperties.directory);
-        return await this._imageMagickTileMontager.tileMontage( layerProperties, inputTileRange, outputTileRange);
+        return await this._imageMagickTileMontager.tileMontage( layerProperties, outputTileRange);
     }
 
     async ensureOutputDirectoryExists( outputDirectory: string) {
