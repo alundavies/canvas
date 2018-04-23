@@ -196,14 +196,18 @@
   // create a floating iframe for activating a doc
     let activeDocIFrame = document.createElement( 'iframe');
     activeDocIFrame.src='/shadows/canvas/Users/alundavies/git/canvas/burner/scripts/tile-file-copier.ts.html';
+    //activeDocIFrame.src='http://news.bbc.co.uk'
     activeDocIFrame.style.display = 'none';
-    activeDocIFrame.style.width='1000px';
+    activeDocIFrame.style.width='800px';
+    activeDocIFrame.style.maxWidth='800px';
+    activeDocIFrame.style.minWidth='800px';
     activeDocIFrame.style.height='1000px';
-    activeDocIFrame.style.transform='scale(0.5)';
+    activeDocIFrame.style.transform='scale(1)';
     activeDocIFrame.style.transformOrigin='top left';
+    activeDocIFrame.style.position='absolute';
     activeDocIFrame.style.top=0;
     activeDocIFrame.style.left=0;
-    activeDocIFrame.style.position='absolute';
+    activeDocIFrame.style.borderWidth=0;
     document.body.appendChild( activeDocIFrame);
 
     map.on('click', function(e) {
@@ -237,8 +241,9 @@
 
         let newTop = size[1]*(1-((1-y-extent[1])/(extent[3]-extent[1])))+'px';
 
-        let docWidth = 0.8*0.125;
-        let newScale = docWidth/(extent[2]-extent[0])*(1000/size[0]);
+        let docWidth = 800;
+        let newScale = docWidth/Math.abs(extent[2]-extent[0])*(docWidth/size[0]);  // THIS IS WRONG
+        newScale = calcScale( docWidth, extent, size);
         console.log( `***** Will update activeDocIFrame.style.left to ${newLeft} --- x=${x}  extent[0]=${e.frameState.extent[0]} extent[2]=${e.frameState.extent[2]} size=${e.frameState.size[0]}  newScale=${newScale}`)
         //console.log( `***** Will update activeDocIFrame.style.top to ${newTop} --- y=${y}  extent[1]=${e.frameState.extent[1]} extent[3]=${e.frameState.extent[3]} size=${e.frameState.size[1]}`)
         activeDocIFrame.style.left = newLeft;
@@ -250,6 +255,19 @@
 
     });
 
+    function calcScale( docWidth, extent, size){
+        // 0.8749553914396256 -> 0.9239871300732726  diff = 0.05
+        // ~ 0.2% required
+        //extent[0]=0.8055395005337536 extent[2]=1.1478288526497262 size=1581  newScale=0.184788415132879
+        // diff extent = 0.35
+
+        // size = 1581
+let docScaledWidth = 0.9239871300732726 - 0.8749553914396256;   // from db coords
+        let extentDiff = extent[2]-extent[0];
+        let scale = (docScaledWidth/extentDiff*size[0])/docWidth;
+        console.log( `docWidth=${docWidth}  extent[2]=${extent[2]}  extent[0]=${extent[0]}  size=${size}  diff=${extent}  scale=${scale}`)
+        return scale;
+    }
 
 </script>
 </body>
