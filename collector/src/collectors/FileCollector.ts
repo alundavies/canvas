@@ -4,20 +4,20 @@ import {Collector} from "./Collector";
  */
 import {isUndefined} from 'util';
 import * as glob from 'glob';
+import * as as from 'async-file';
+import Files from "../../../burner/src/file-io/Files";
 
 export default class FileCollector implements Collector {
 
+    constructor( readonly target: string, readonly include: string, readonly options: any={}, readonly recursive: boolean=false){
 
-    constructor( readonly target: string, readonly recursive?: boolean){
-
-        this.recursive = isUndefined( recursive) ? false : true;
     }
 
-    async collect( pattern : string, options?: any): Promise<string[]> {
+    async collect(): Promise<string[]> {
 
         let promise : Promise<string[]> = new Promise( (resolve, reject) => {
 
-            glob( `${this.target}/${pattern}`, options, function( err, files){
+            glob( `${this.target}/${ this.recursive?'**/':''}${this.include}`, this.options, function( err, files){
                 if( err){
                     reject( err);
                 }

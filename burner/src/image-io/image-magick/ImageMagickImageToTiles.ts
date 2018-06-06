@@ -19,11 +19,13 @@ export default class ImageMagickImageToTiles {
                 tileXOffset=0, tileYOffset=0,
                 imageSize?: ImageSizeProperties) : Promise<TileRange> {
 
-        if( isUndefined( imageSize) && !isUndefined( this._imageSizeReader)){
-            imageSize = await this._imageSizeReader.getSizePropertiesOf( imagePath);
-        }
-        else{
-            throw 'Could not establish size of image';
+        if( isUndefined( imageSize)){
+            if( !isUndefined( this._imageSizeReader)){
+                imageSize = await this._imageSizeReader.getSizePropertiesOf( imagePath);
+            }
+            else{
+                throw `Could not establish size of image`;
+            }
         }
 
         const outputPath : string = `${outputDirectory}/${outputFilePrefix}%[filename:tile].png`;
@@ -40,7 +42,8 @@ export default class ImageMagickImageToTiles {
 
 console.log( `ImageMagickToTiles - ${fullHeight} x ${fullWidth} -> ${outputPath}`);
 
-        let args = `-size ${fullWidth}x${fullHeight} xc:white ${imagePath} -geometry +${tileXOffset}+${tileYOffset} -composite -crop ${tileWidth}x${tileHeight} -set filename:tile %[fx:page.x/${tileWidth}+${tileX}]_%[fx:page.y/${tileHeight}+${tileY}] +repage +adjoin ${outputPath}`;
+        // xc - below is for background, e.g. white/black
+        let args = `-size ${fullWidth}x${fullHeight} xc:none ${imagePath} -geometry +${tileXOffset}+${tileYOffset} -composite -crop ${tileWidth}x${tileHeight} -set filename:tile %[fx:page.x/${tileWidth}+${tileX}]_%[fx:page.y/${tileHeight}+${tileY}] +repage +adjoin ${outputPath}`;
 
         //args = `-size 512x512 xc:white ${imagePath} -composite ${outputDirectory}/test.png`;
 

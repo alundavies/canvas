@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/node": "^8.0.46",
     "express": "^4.15.3",
+    "lodash": "^4.17.10",
     "node-gyp": "^3.6.2",
     "openseadragon": "^2.2.1",
     "spdy": "^3.4.7"

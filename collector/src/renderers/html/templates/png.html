@@ -1,0 +1,24 @@
+<html>
+<head>
+
+</head>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="130px" >
+    <text x="0" y="45" font-family="sans-serif" font-size="45" stroke="#000" fill="#fff"  stroke-width="2">__FILE_NAME__</text>
+    <text x="0" y="75" font-family="sans-serif" font-size="15" stroke="#666" fill="#fff" stroke-width="1">__FILE_PATH__</text>
+    <text id="imageSize" x="0" y="110" font-family="sans-serif" font-size="25" stroke="#000" fill="#fff"  stroke-width="1">__FILE_PATH__</text>
+</svg>
+
+<img id='previewImage' style='width:100%;' src="data:image/png;base64,__FILE_BASE64_CONTENTS__"/>
+<script>
+    let imageSize = document.querySelector('#imageSize');
+    let image = document.querySelector('#previewImage');
+    imageSize.innerHTML = image.naturalWidth+'px x '+image.naturalHeight+'px';
+    let previewImage = document.querySelector('#previewImage');
+    if( image.naturalWidth>image.naturalHeight){
+        previewImage.style.height= '100%';
+    } else {
+        previewImage.style.width = '100%';
+    }
+</script>
+</body>
+</html>

@@ -17,19 +17,20 @@ import TileRange from "../../burner/src/TileRange";
 import ImageMagickImageSizeReader from '../../burner/src/image-io/image-magick/ImageMagickImageSizeReader';
 import {rimraf} from "../../burner/node_modules/async-file";
 import Files from "../../burner/src/file-io/Files";
+import BurnResult from "../../burner/src/BurnResult";
 
 
 async function run() {
 
-    let fileCollector: Collector = new FileCollector("/Users/alundavies/shadows/canvas");
-    let files: string[] = await fileCollector.collect("**/*.png", {ignore: ["**/node_modules/**"]});
+    let fileCollector: Collector = new FileCollector("/Users/alundavies/shadows/canvas", "**/*.png", {ignore: ["**/node_modules/**"]}, true);
+    let files: string[] = await fileCollector.collect();
 
     console.log(files);
     let promises: Promise<string>[] = [];
 
     // now put all those pngs in square
-    let entries: number = Math.floor( Math.sqrt(files.length)+1);
-    //entries = 1;
+    let entries: number = Math.floor( Math.sqrt(files.length)*3/2);
+  //  entries = 1;
 
     // clear 'sample' layer directory first
     await rimraf( '/Users/alundavies/tiles/layers/code');
@@ -49,18 +50,18 @@ async function run() {
 
     // First we'll generate at 0, 0 tile_0_0
 
-    let startBurning = new Date();
-console.log( 'Starting to burn')
+    console.time( 'All')
+console.time( 'Burner')
 
-    let allBurnedTileRangePromises :  Promise<TileRange>[] = [];
+    let allBurnPromises :  Promise<BurnResult>[] = [];
     for (let y = 0; y < entries; y++) {
         for (let x = 0; x < entries; x++) {
             let offset  = (y * entries + x);
             if ( offset < files.length) {
 
-                let burnedTileRange : Promise<TileRange> = burner.burnImageToFitXY( files[offset], x / entries, y / entries, 1.0 / entries, 1.0 / entries);
+                let burnResultPromise : Promise<BurnResult> =  burner.burnImageToFitXY( files[offset], x / entries, y / entries, 1.0 / entries, 1.0 / entries);
 
-                allBurnedTileRangePromises.push( burnedTileRange);
+                allBurnPromises.push( burnResultPromise);
                 //console.log(`TileRange that burn took place at ${burnedTileRange.toString()}\n`);
             }
             else{
@@ -68,26 +69,31 @@ console.log( 'Starting to burn')
             }
         }
     }
+    console.timeEnd( 'Burner')
 
-    let allBurnedTileRanges : TileRange[] = await Promise.all( allBurnedTileRangePromises);
+    let allBurnResults : BurnResult[] = await Promise.all( allBurnPromises);
 
-    let startDownTiling = new Date();
-    console.log('\n\nEntering down tiler phase: \n'+(new Date()));
-    if (allBurnedTileRanges.length != 0) {
-        allBurnedTileRanges.sort( (a,b) => {
-            return b.level-a.level;
-        })
-        for (let burnedTileRange of allBurnedTileRanges) {
-            console.log( `${burnedTileRange}`)
-            await downTiler.downTile(layerProperties, burnedTileRange)
+    console.time('DownTiler');
+    if (allBurnResults.length != 0) {
+
+        allBurnResults.sort( (a,b) => {
+            return b.tileRange.level-a.tileRange.level;
+        });
+
+        for (let burnResult of allBurnResults) {
+            //console.log( `${burnResult}`)
+            await downTiler.downTile(layerProperties, burnResult.tileRange)
         }
     } else {
         console.log('No TileRange provided back from burner - the tiles may not have been generated');
     }
 
-    for (let burnedTileRange of allBurnedTileRanges) {
-        console.log( `${burnedTileRange} Burning Start: ${startBurning} -> Tiling Start: ${startDownTiling} -> ${new Date()}`)
-    }
+    console.timeEnd( 'DownTiler');
+
+    // Save all positions in layer directory
+    console.log('Will write burns to '+layerProperties.burnResultsFilePath);
+    await Files.writeTextToFile( JSON.stringify( { burns: allBurnResults}), layerProperties.burnResultsFilePath );
+    console.timeEnd('All');
 };
 
 run();

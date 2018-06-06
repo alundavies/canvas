@@ -14,7 +14,7 @@ export default class ImageMagickTileMontager {
 
         //this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-labelled-256x256.png');
         //this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-transparent-1x1.png');
-        this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-black-256x256.png');
+        this.blankImagePath = path.join( __dirname, '../../../assets/images/blank-transparent-256x256.png');
 
         if( !fs.exists( this.blankImagePath)){
             throw `Not happening - can't find blank image at '${this.blankImagePath}'`;
@@ -65,11 +65,15 @@ export default class ImageMagickTileMontager {
                     .montage(inFileNames[0])
                     .montage(inFileNames[1])
                     .montage(inFileNames[2])
-                    .tile('2x2').gravity("NorthWest").geometry('128x128>+0+0').write(outputFileName,
-                    () => {
-                        //console.log('Generated Zoomed Out Tile', new Date());
-                        resolve( outputTileRange);
-                    }
+                    .tile('2x2')
+                 //   .set('option:filter:lobes 8')
+                    .gravity("NorthWest")
+                    .geometry('128x128>+0+0')
+                    .background('none').write(outputFileName,
+                        () => {
+                            //console.log('Generated Zoomed Out Tile', new Date());
+                            resolve( outputTileRange);
+                        }
                 );
             } else {
                 resolve( outputTileRange);

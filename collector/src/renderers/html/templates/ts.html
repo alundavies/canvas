@@ -1,4 +1,4 @@
-<html class="hljs">
+<html style="background:black">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/icecoder.min.css">
@@ -15,11 +15,10 @@
         div.CodeMirror-scroll { height: auto!important; overflow: visible; }
     </style>
 </head>
-<body style="margin: 0 0; border: none; padding: 0 0; color: white" class="cm-s-icecoder">
-<h1 style="font-size:5.5em; margin-bottom:0.2em"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAYFBMVEUAdMH///8AcsAAb78AbL4Afcapzumu0OmVwuN5rdnh7vcAe8U1isqYv+H0+v0Ad8Pq9PpdotW42O1xrtpGlc/B3O/I4PHa6/ZpqtmEt94fhMg7kc5xqddSmtGdx+VLkc0d7gmeAAADIUlEQVRoge2Z2ZKjIBSGDUcjUZqIG41G8/5vOZipSotLQJCumhr+i65UJHx9WM5mFAUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBf03Qke0+jEgAEDyj/y0NeAjmaXmGrv53AA5Gb4Fvl6v6YhFxfoOxWBOh6+LuTICP2uVDLjNKH0/pLTgpegTY7YdGqF+zLbHcHE3hNugESRjsT/I1G4bNFQ7Fv8dlHtDI1TRj4O8oRGMmkHe0PCtG+QLDcPH1faKLrWDPKHjYfVlkfGW8+x924zRiGFVfD7tqD4TSZSqXFre6i6/3xMy3MaWHkJHk/+fKb7OZ85j9Skiqitp6ilsRGhyrABRj7Mj6IVU9NIxwUM5ZGWiRAv5b3SiKMy9+BE0wsouv6PJjN7JXfGBBuXpdcs8S5P1aOVqiZXRTtIseDN/+vWraMXq0mF1D6NBudZ0ONVsDVqNWnx9xP2hxUVlDwfSQEf0Mm4VIj8N/hkdJfyyEH+cBdegAS/RF9qyc+AaNOq2UlEuyAlwHXonM8uqJHaFa9ARSppNtjxw3bGS6zA6gn4vOeMMnK65Fi0v2G4BUDq5GD06QvVu1cMHhx03QEdAdtNSWtlvuAk6QjneM7xg1mtuhJZ3jKQ78KK2ZZuhJTsa0u2j3vrJSOfw3fJe+Ea/MniCN+C8s2MfQE90mXiv4ZXdbh9Dvw7cuNzz8nfQk+VsEcQtS5/j6KniUNm0/y20dG+1yrZzK1boZZfj4QO9591y5ajdPKDRXicQuHd0xbajoor2seAwUpFszIs6ZcHtCiINWubCLYmXMRnFSlVCiYfL9UrDafq8w4wuA4lQjM5Me8OH0TImlzLrj2N4NW/iuMOqK019hI+f4oM2uBqez2fNxCpbskxUTNGXV9tfap0vtF6C5kbJtdbNT9/MAN3YHbIT0PadBld0Yd9fcURnDp0dN3TqUnRpgib58Jbp0n7bnjATtMwCb81m9p2lrk0VbWmPUE4YbrLi/U6RFlmDGbm79tBQfZtpcwGl45buu+sH9pBDHqzu7q/XuY7kxVuB3emmvv97EDq3VxoU9K/oD8OJKzQHvqtfAAAAAElFTkSuQmCC"/>&nbsp;__FILE_NAME__</h1>
+<body style="margin: 0 0; border: none; padding: 0 0; color: white;border-radius:20px" class="CodeMirror cm-s-icecoder">
+<h1 style="font-size:5.5em; margin-bottom:0.2em;overflow:hidden;white-space:nowrap;min-height:2em;max-height:2em"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAYFBMVEUAdMH///8AcsAAb78AbL4Afcapzumu0OmVwuN5rdnh7vcAe8U1isqYv+H0+v0Ad8Pq9PpdotW42O1xrtpGlc/B3O/I4PHa6/ZpqtmEt94fhMg7kc5xqddSmtGdx+VLkc0d7gmeAAADIUlEQVRoge2Z2ZKjIBSGDUcjUZqIG41G8/5vOZipSotLQJCumhr+i65UJHx9WM5mFAUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBf03Qke0+jEgAEDyj/y0NeAjmaXmGrv53AA5Gb4Fvl6v6YhFxfoOxWBOh6+LuTICP2uVDLjNKH0/pLTgpegTY7YdGqF+zLbHcHE3hNugESRjsT/I1G4bNFQ7Fv8dlHtDI1TRj4O8oRGMmkHe0PCtG+QLDcPH1faKLrWDPKHjYfVlkfGW8+x924zRiGFVfD7tqD4TSZSqXFre6i6/3xMy3MaWHkJHk/+fKb7OZ85j9Skiqitp6ilsRGhyrABRj7Mj6IVU9NIxwUM5ZGWiRAv5b3SiKMy9+BE0wsouv6PJjN7JXfGBBuXpdcs8S5P1aOVqiZXRTtIseDN/+vWraMXq0mF1D6NBudZ0ONVsDVqNWnx9xP2hxUVlDwfSQEf0Mm4VIj8N/hkdJfyyEH+cBdegAS/RF9qyc+AaNOq2UlEuyAlwHXonM8uqJHaFa9ARSppNtjxw3bGS6zA6gn4vOeMMnK65Fi0v2G4BUDq5GD06QvVu1cMHhx03QEdAdtNSWtlvuAk6QjneM7xg1mtuhJZ3jKQ78KK2ZZuhJTsa0u2j3vrJSOfw3fJe+Ea/MniCN+C8s2MfQE90mXiv4ZXdbh9Dvw7cuNzz8nfQk+VsEcQtS5/j6KniUNm0/y20dG+1yrZzK1boZZfj4QO9591y5ajdPKDRXicQuHd0xbajoor2seAwUpFszIs6ZcHtCiINWubCLYmXMRnFSlVCiYfL9UrDafq8w4wuA4lQjM5Me8OH0TImlzLrj2N4NW/iuMOqK019hI+f4oM2uBqez2fNxCpbskxUTNGXV9tfap0vtF6C5kbJtdbNT9/MAN3YHbIT0PadBld0Yd9fcURnDp0dN3TqUnRpgib58Jbp0n7bnjATtMwCb81m9p2lrk0VbWmPUE4YbrLi/U6RFlmDGbm79tBQfZtpcwGl45buu+sH9pBDHqzu7q/XuY7kxVuB3emmvv97EDq3VxoU9K/oD8OJKzQHvqtfAAAAAElFTkSuQmCC"/>__FILE_NAME__</h1>
 <form><textarea id="code" name="code" >
-__FILE_CONTENTS__
-
+__FILE_TEXT_CONTENTS__
 </textarea></form>
 
 <script>

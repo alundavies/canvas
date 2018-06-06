@@ -1,0 +1,81 @@
+<html>
+<head>
+    <link rel="stylesheet" href="__CODEMIRROR_CSS_PATH__">
+    <link rel="stylesheet" href="__CODEMIRROR_THEME_CSS_PATH__">
+    <script src="__CODEMIRROR_JS_PATH__"></script>
+    <script src="__CODEMIRROR_MODE_JS_PATH__"></script>
+    <style type="text/css">
+
+        .CodeMirror {
+            font-weight: 500;
+            /*font-smooth: never;*/
+            /*-webkit-font-smoothing : none; */ /* Compression is better because of distinct colors */
+            /*font-family: Verdana;*/
+            margin: 0 1em 0 1em;
+            border: none;
+            height: auto;  /* Important for auto height of code */
+        }
+
+        div.CodeMirror-scroll { height: auto!important; overflow: visible; }
+    </style>
+</head>
+<body style="margin: 0 0; border: none; padding: 0 0; color: white; border-radius:20px" class="CodeMirror __CODEMIRROR_BODY_THEME_CLASS__">
+<div style="margin-bottom:0.2em;overflow:hidden;white-space:nowrap;min-width:20vw;min-height:12vw">
+
+    <div style="font-size:6vw;font-family: sans-serif;font-weight: 600;color:__FILE_NAME_COLOR__"> <img src="__FILE_ICON_SRC__" style="float:left;margin:10px;max-width:20vw;max-height:20vw"/>__FILE_NAME__</div>
+</div>
+<form><textarea id="code" name="code" >
+__FILE_TEXT_CONTENTS__
+</textarea></form>
+
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: __CODEMIRROR_LINE_NUMBERS__,
+        lineWrapping: __CODEMIRROR_LINE_WRAPPING__,
+        viewportMargin: Infinity,
+        matchBrackets: true,
+        mode: "__CODEMIRROR_MODE__",
+        theme: "__CODEMIRROR_THEME__"
+    });
+</script>
+
+<script>
+    document.grabItemLocations = function(){
+
+        let lines = new Array( editor.lineCount());
+        let count=0;
+        editor.eachLine( function( lineHandle){
+            lines[count]={
+                    itemId: `line_${count}`,
+                    ordinal: count,
+                    left: editor.getWrapperElement().offsetLeft,
+                    top: editor.heightAtLine( lineHandle, 'page', true /*line widgets included*/),
+                    right: editor.getWrapperElement().offsetWidth,
+                    bottom: lineHandle.height
+            };
+
+            lines[count].bottom += lines[count].top;
+            lines[count].right += lines[count].left;
+
+            count += 1;
+        });
+
+        return {
+            sorted: true,
+            sortField: "ordinal",
+            locations: lines
+        }
+
+    }
+
+    editor.eachLine( function( lineHandle){
+        console.log( editor.heightAtLine( lineHandle, 'page', true /*line widgets included*/)); // page client Y, top of line
+        editor.getWrapperElement().offsetWidth
+        editor.getWrapperElement().offsetLeft
+        console.log( lineHandle);
+    })
+
+</script>
+
+</body>
+</html>

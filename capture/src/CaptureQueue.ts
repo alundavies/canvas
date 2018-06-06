@@ -4,8 +4,12 @@ import {Capturer} from "./capturers/Capturer";
 
 export default class CaptureQueue {
 
-    queue : Queue = new Queue( 10, Infinity);
+    queue : Queue;
     chromePuppeteerCapturer : Capturer = new ChromePuppeteerCapturer();
+
+    constructor( concurrency: number=10){
+        this.queue =  new Queue( concurrency, Infinity);
+    }
 
     async capture( url : string, options? : any) : Promise<string> {
 

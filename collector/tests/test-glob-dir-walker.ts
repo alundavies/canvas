@@ -5,8 +5,8 @@ import FileCollector from '../src/collectors/FileCollector'
 import {Collector} from "../src/collectors/Collector";
 
 async function run(){
-    let fileCollector : Collector = new FileCollector( "/Users/alundavies/git/canvas");
-    let files = await fileCollector.collect( "**/*.ts", {ignore: ["**/node_modules/**"]});
+    let fileCollector : Collector = new FileCollector( "/Users/alundavies/git/canvas", "*.ts", {ignore: ["**/node_modules/**"]}, true);
+    let files = await fileCollector.collect();
     console.log( files);
 }
 

@@ -9,18 +9,19 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 
-app.set('views', 'src/views');
-
+//app.set('views', 'src/views');
+/*
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
     layoutsDir: 'src/views/layouts',
     partialsDir: 'src/views'
 }));
+*/
 
 //app.engine( 'handlebars', engines.handlebars)
 //app.engine( 'html', engines.handlebars)
 
-app.set('view engine', 'handlebars');
+//app.set('view engine', 'handlebars');
 
 app.use( '/canvas', express.static('src'))
 
@@ -33,11 +34,12 @@ app.post( '/open', function( req, res){
     res.send('<html><body>Hello</body></html>')
 })
 
-
+/*
 app.get('/canvas/:canvasId', function(req, res){
     //res.sendfile('index.html', { root: __dirname + "/src" } );
     res.render( req.params['canvasId']);
 });
+*/
 
 // Return the markup for the particular canvas - a canvas cannot be called load
 /*app.get('/canvas/load/:canvasId/:version', function( req, res){
@@ -70,7 +72,7 @@ app.post( '/canvas/drawings/:filename', urlencodedParser, async function( req, r
 });
 
 server.listen(29000, function () {
-    console.log('Canvas listening on port 29000!')
+    console.log('Canvas listening on port 29000')
 });
 
 var blueprintNamespace = io.of( '/blueprint');

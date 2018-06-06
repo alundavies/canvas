@@ -6,6 +6,8 @@ import Captured from "../Captured";
 import * as as from 'async-file';
 import * as Puppeteer from "puppeteer";
 import {JSHandle} from "puppeteer";
+import Files from "../../../../burner/src/file-io/Files";
+
 
 export default class ChromePuppeteerCapturer implements Capturer {
 
@@ -45,22 +47,41 @@ export default class ChromePuppeteerCapturer implements Capturer {
 
             //await page.
 
-            console.log( `Grabbing screenshot and writing to ${url}`);
-            if( await as.exists( options.filePath)) {
-                await as.unlink(options.filePath);
+            let imagePath = options.filePath+'.png';
+            console.log( `Grabbing screenshot and writing to ${imagePath}`);
+            if( await as.exists( imagePath)) {
+                await as.unlink( imagePath);
             }
 
-            //await new Promise( resolve => { setTimeout( resolve, 3000)});
 
-            //let bodyHandle = await page.$('.CodeMirror-sizer');
+            const screenshot = await page.screenshot({
+                path: imagePath,
+                fullPage: true,
+                omitBackground: true,
+                type: 'png'
+            });
 
-           // if( bodyHandle) {
-                const screenshot = await page.screenshot({
-                    path: options.filePath,
-                    fullPage: true,
-                    type: 'png'
-                });
-            //}
+
+            let itemLocations = await page.evaluate(() => {
+                if( eval( "window.document.grabItemLocations")){
+                    return eval( "window.document.grabItemLocations()");
+                } else {
+                    return "Nothing";
+                }
+            });
+
+
+
+console.log( itemLocations);
+            let itemLocationPath = options.filePath+".item-locations.json";
+            if( await as.exists( itemLocationPath )) {
+                await as.unlink( itemLocationPath );
+            }
+            if( itemLocations!=null){
+                let itemLocationsJson = JSON.stringify( itemLocations);
+                console.log( itemLocationsJson);
+                await Files.writeTextToFile( JSON.stringify( itemLocationsJson), itemLocationPath );
+            }
 
         } catch( e){
             console.error( 'Caught error: ', e);

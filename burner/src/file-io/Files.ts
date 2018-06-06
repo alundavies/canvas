@@ -23,4 +23,8 @@ export default class Files {
         await Files.copyFileAsync( src, dest);
     }
 
+    static async writeTextToFile( text: string, destination: string) : Promise<void>{
+        return as.writeTextFile( destination, text )
+    }
+
 }

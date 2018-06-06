@@ -54,4 +54,8 @@ export default class LayerProperties {
             this.layerOffsetY = 0;
         }
     }
+
+    get burnResultsFilePath() : string {
+        return `${this.directory}/${this.layerName}/burns.json`;
+    }
 }

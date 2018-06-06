@@ -15,6 +15,7 @@ app.use( '/openseadragon/bbcsport_files', express.static('bbcsport_files'))
 app.use( '/openseadragon/bbcnews_files', express.static('bbcnews_files'))
 app.use( '/openseadragon/output_files', express.static('output_files'))*/
 app.use( '/', express.static('src'));
+app.use( '/lib', express.static( './node_modules'));
 app.use( '/shadows', express.static( '/Users/alundavies/shadows'));
 app.get( '/openlayers/:layerName/:z/:x/:y.png', function( req : any, res : any){
 
